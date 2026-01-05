@@ -6,19 +6,19 @@ $priceHT = 29.99;
 $vat = 20;
 $stock = 3;
 $priceTTC = calculedPriceTTC($priceHT, $vat);
-$discount = 15;
+$discount = 50;
 $priceDiscount = calculedPriceTTC(calculedPriceDiscount($priceHT, $discount), $vat);
 
 
 function calculedPriceDiscount($priceHT, $discount)
 {
-    $result = $priceHT - $priceHT / $discount;
+    $result = $priceHT - (($priceHT*$discount)/100);
     return $result;
 }
 
 function calculedPriceTTC($priceHT, $vat)
 {
-    $result = $priceHT / $vat + $priceHT;
+    $result = $priceHT + (($priceHT*$vat)/100);
     return $result;
 }
 
