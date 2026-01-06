@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 const TVA = 20;
 const DEVISE = '€ ';
@@ -11,13 +12,13 @@ $priceTTC = calculedPriceTTC($priceHT);
 $discount = 10;
 $priceDiscount = calculedPriceTTC(calculedPriceDiscount($priceHT, $discount));
 
-function calculedPriceDiscount($priceHT, $discount)
+function calculedPriceDiscount(float $priceHT, float $discount) : float
 {
     $result = $priceHT - (($priceHT * $discount) / 100);
     return $result;
 }
 
-function calculedPriceTTC($priceHT)
+function calculedPriceTTC(float $priceHT) : float
 {
     $result = $priceHT + (($priceHT * TVA) / 100);
     return $result;
