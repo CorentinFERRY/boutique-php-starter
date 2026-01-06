@@ -15,4 +15,3 @@ isInCategory($category, "Chaussures");   // Trouvé !
 isInCategory($category, "Électronique"); // Non Trouvé
 echo array_search("Sport", $category);  // 3 (index)
 
-?>

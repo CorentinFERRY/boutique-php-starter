@@ -33,4 +33,3 @@ echo '<img src="'.$product["images"][1].'" width=150><br>';     // image de ma c
 echo count($product["size"]).'<br>';                            // 4
 echo $product["reviews"][0]["rating"];                          // 5
 
-?>

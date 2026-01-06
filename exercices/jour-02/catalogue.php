@@ -35,4 +35,3 @@ echo $product[count($product)-1]["stock"].'<br>';       // 0
 $product[1]["stock"] += 10;
 echo $product[1]["stock"].'<br>';                       // 22
 
-?>

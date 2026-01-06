@@ -11,4 +11,3 @@ echo count($catalog);
 array_unshift($catalog,"Casquette");
 echo "<br>";
 print_r($catalog);
-?>
