@@ -69,7 +69,12 @@ $products = [
         <?php foreach ($products as $product): ?>
             <div class="produit">
                 <h3><?= $product["name"] ?> <?= $product["onSale"] ? " 🔥 PROMO" : "" ?></h3>
-                <p class="prix"><?= sprintf("%01.2f €", $product["price"]) ?> </p>
+                <?php if($product["onSale"]) :?>
+                    <p class="prix"><?= sprintf("%01.2f €", $product["price"]*0.80 )?> </p>
+                    <strike><p class="prix"><?= sprintf("%01.2f €", $product["price"]) ?> </p></strike>
+                <?php else: ?>
+                    <p class="prix"><?= sprintf("%01.2f €", $product["price"]) ?>
+                <?php endif ?>
                 <?php if ($product["stock"] > 0): ?>
                     <p class="en-stock"> ✓ En stock <?= '(' . $product["stock"] . ')' ?></p>
                 <?php else: ?>
