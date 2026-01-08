@@ -5,6 +5,17 @@ declare(strict_types=1);
 require_once __DIR__ . '/../app/data.php';
 // $products est maintenant disponible
 
+//Compteurs pour les stats
+$inStock = 0;
+$onSale = 0;
+$outOfStock = 0;
+
+foreach ($products as $product) {
+    if ($product["stock"] === 0) $outOfStock++;
+    if ($product["discount"] > 0)  $onSale++;
+    if ($product["stock"] > 0) $inStock++;
+}
+
 function calculedPriceDiscount(float $price, float $discount): float
 {
     $result = $price - (($price * $discount) / 100);
@@ -134,11 +145,18 @@ function isAvailable($stock)
                      JOUR 3 : foreach
                      JOUR 4 : Badges conditionnels
                      ============================================ -->
+                    <p> <?=  "Produits en rupture : $outOfStock , Produits en promo : $onSale , Produits en stock : $inStock" ?></p><br>
                     <div class="products-grid">
                         <?php foreach ($products as $product): ?>
                             <article class="product-card">
                                 <div class="product-card__image-wrapper">
                                     <img src="<?= $product["image"] ?>" alt="<?= $product["name"] ?>" class="product-card__image">
+                                    <div class="product-card__badges">
+                                        <?= $product["new"] ? "<span class=\"badge badge--new\">Nouveau</span>" : ""?>
+                                        <?= $product["discount"] > 0 ? '<span class="badge badge--promo">-'.$product["discount"].'%</span>' : "" ?>
+                                        <?= ($product["stock"] < 5 && $product["stock"] > 0) ? "<span class=\"badge badge--low-stock\">Derniers</span>" : "" ?>
+                                        <?= $product["stock"] === 0 ? "<span class=\"badge badge--out-of-stock\">Rupture</span>" :"" ?>
+                                    </div>
                                 </div>
                                 <div class="product-card__content">
                                     <span class="product-card__category"><?= $product["category"] ?></span>

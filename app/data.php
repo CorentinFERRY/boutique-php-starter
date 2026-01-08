@@ -8,6 +8,7 @@ $products = [
         "price" => 35.99,
         "discount" => 0,
         "stock" => 45,
+        "new" => true,
         "images" => "https://via.placeholder.com/300x300/e2e8f0/64748b?text=T-shirt",
         "size" => ["S", "M", "L", "XL"],
         "reviews" =>
@@ -36,6 +37,7 @@ $products = [
         "price" => 99.99,
         "stock" => 3,
         "discount" => 20,
+        "new" => false,
         "images" => "https://via.placeholder.com/300x300/e2e8f0/64748b?text=Sneakers",
         "size" => ["S", "M", "L", "XL"],
         "reviews" => [
@@ -59,6 +61,7 @@ $products = [
         "price" => 24.99,
         "discount" => 0,
         "stock" => 28,
+        "new" => false,
         "images" => "https://via.placeholder.com/300x300/e2e8f0/64748b?text=Casquette",
         "size" => ["One Size"],
         "reviews" => [
@@ -77,6 +80,7 @@ $products = [
         "price" => 79.99,
         "discount" => 30,
         "stock" => 20,
+        "new" => true,
         "images" => "https://via.placeholder.com/300x300/e2e8f0/64748b?text=Jean",
         "size" => ["S", "M", "L", "XL"],
         "reviews" => [
@@ -99,6 +103,7 @@ $products = [
         "price" => 59.99,
         "discount" => 0,
         "stock" => 12,
+        "new" => false,
         "images" => "https://via.placeholder.com/300x300/e2e8f0/64748b?text=Sac",
         "size" => ["One Size"],
         "reviews" => [
@@ -117,6 +122,7 @@ $products = [
         "price" => 89.99,
         "discount" => 0,
         "stock" => 0,
+        "new" => false,
         "images" => "https://via.placeholder.com/300x300/e2e8f0/64748b?text=Montre",
         "size" => ["S", "M", "L", "XL"],
         "reviews" => []
@@ -129,6 +135,7 @@ $products = [
         "price" => 49.99,
         "discount" => 0,
         "stock" => 15,
+        "new" => false,
         "images" => "https://via.placeholder.com/300x300/e2e8f0/64748b?text=Pull",
         "size" => ["S", "M", "L", "XL"],
         "reviews" => []
@@ -141,6 +148,7 @@ $products = [
         "price" => 34.99,
         "discount" => 0,
         "stock" => 0,
+        "new" => false,
         "images" => "https://via.placeholder.com/300x300/e2e8f0/64748b?text=Ceinture",
         "size" => ["S", "M", "L", "XL"],
         "reviews" => []
