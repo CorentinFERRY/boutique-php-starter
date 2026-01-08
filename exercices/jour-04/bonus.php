@@ -64,9 +64,11 @@ $products = [
         "stock" => 8,
         "new" => true,
         "discount" => 0,
-        "category" => "Smartphone"
+        "category" => null
     ],
 ];
+
+// OPÉRATEUR SPACESHIP
 
 print_r($products);
 echo "<br>";
@@ -106,3 +108,9 @@ usort($products,'compare');
 print_r($products);
 echo "<br>";
 echo "<br>";
+
+// NULL SAFE OPERATOR (?->)
+
+// MATCH AVEC CONDITIONS
+
+
