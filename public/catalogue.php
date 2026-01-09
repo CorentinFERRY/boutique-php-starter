@@ -4,7 +4,8 @@ declare(strict_types=1);
 // starter-project/public/catalogue.php
 require_once __DIR__ . '/../app/data.php';
 // $products est maintenant disponible
-
+require_once __DIR__ . '/../app/helpers.php';
+// Les fonction de helpers sont maintenant disponible
 
 //Compteurs pour les stats
 $inStock = 0;
@@ -16,33 +17,6 @@ foreach ($products as $product) {
     if ($product["discount"] > 0)  $onSale++;
     if ($product["stock"] > 0) $inStock++;
 }
-
-function calculedPriceDiscount(float $price, float $discount): float
-{
-    $result = $price - (($price * $discount) / 100);
-    return $result;
-}
-
-function isAvailable($stock)
-{
-    if ($stock > 0)
-        return true;
-    return false;
-}
-
-function displayBadge(array $product) : string{
-    $badges = "";
-    if ($product["new"])
-        $badges = $badges."<span class=\"badge badge--new\">Nouveau</span>";
-    if ($product["discount"] > 0)
-        $badges = $badges.'<span class="badge badge--promo">-'.$product["discount"].'%</span>';
-    if ($product["stock"] < 5 && $product["stock"] > 0)
-        $badges = $badges."<span class=\"badge badge--low-stock\">Derniers</span>";
-    elseif ($product["stock"] === 0)
-        $badges = $badges."<span class=\"badge badge--out-of-stock\">Rupture</span>";
-    return $badges;
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +116,7 @@ function displayBadge(array $product) : string{
 
                 <div class="catalog-main">
                     <div class="catalog-header">
-                        <p><strong><?=  count($products) ?></strong> produits trouvés</p>
+                        <p><strong><?= count($products) ?></strong> produits trouvés</p>
                         <div class="catalog-header__sort">
                             <label>Trier :</label>
                             <select class="form-select" style="width:auto">
@@ -159,7 +133,7 @@ function displayBadge(array $product) : string{
                      JOUR 3 : foreach
                      JOUR 4 : Badges conditionnels
                      ============================================ -->
-                    <p> <?=  "Produits en rupture : $outOfStock , Produits en promo : $onSale , Produits en stock : $inStock" ?></p><br>
+                    <p> <?= "Produits en rupture : $outOfStock , Produits en promo : $onSale , Produits en stock : $inStock" ?></p><br>
                     <div class="products-grid">
                         <?php foreach ($products as $product): ?>
                             <article class="product-card">
@@ -173,50 +147,30 @@ function displayBadge(array $product) : string{
                                     <span class="product-card__category"><?= $product["category"] ?></span>
                                     <a href="produit.html?id=1" class="product-card__title"><?= $product["name"] ?></a>
                                     <div class="product-card__price">
-                                        <?php if ($product["discount"] != 0) : ?>
-                                            <span class="product-card__price-current"><?= sprintf("%01.2f €", calculedPriceDiscount($product["price"], $product["discount"])) ?></span>
-                                            <span class="product-card__price-old"><?= sprintf("%01.2f €", $product["price"]) ?></span>
-                                        <?php else : ?>
-                                            <span class="product-card__price-current"><?= sprintf("%01.2f €", $product["price"]) ?></span>
-                                        <?php endif; ?>
+                                        <?= displayPrice($product["price"], $product["discount"]) ?>
                                     </div>
-                                    <?php if ($product["stock"] >= 5) : ?>
-                                        <p class="product-card__stock product-card__stock--available">✓ En stock <?= '(' . $product["stock"] . ')' ?></p>
-                                    <?php elseif ($product["stock"] < 5 && $product["stock"] > 0) : ?>
-                                        <p class="product-card__stock product-card__stock--low">⚠ Plus que <?= $product["stock"] ?></p>
-                                    <?php else: ?>
-                                        <p class="product-card__stock product-card__stock--out">✗ Rupture</p>
-                                    <?php endif; ?>
-                                    <?php if (isAvailable($product["stock"])) : ?>
-                                        <div class="product-card__actions">
-                                            <form action="panier.html" method="POST">
-                                                <input type="hidden" name="product_id" value="1">
-                                                <button type="submit" class="btn btn--primary btn--block">Ajouter</button>
-                                            </form>
-                                        </div>
-                                    <?php else : ?>
-                                        <div class="product-card__actions">
-                                            <button class="btn btn--secondary btn--block" disabled>Indisponible</button>
-                                        </div>
-                                    <?php endif; ?>
+                                    <?= displayStockStatus($product["stock"]) ?>
+                                    <div class="product-card__actions">
+                                        <?= displayButton($product["stock"]) ?>
+                                    </div>
                                 </div>
                             </article>
                         <?php endforeach; ?>
                     </div>
-                        <!-- ============================================
+                    <!-- ============================================
                      PAGINATION
                      JOUR 6 : Générer dynamiquement
                      ============================================ -->
-                        <nav class="pagination">
-                            <a class="pagination__item pagination__item--disabled">←</a>
-                            <a class="pagination__item pagination__item--active">1</a>
-                            <a class="pagination__item">2</a>
-                            <a class="pagination__item">3</a>
-                            <a class="pagination__item">→</a>
-                        </nav>
-                    </div>
+                    <nav class="pagination">
+                        <a class="pagination__item pagination__item--disabled">←</a>
+                        <a class="pagination__item pagination__item--active">1</a>
+                        <a class="pagination__item">2</a>
+                        <a class="pagination__item">3</a>
+                        <a class="pagination__item">→</a>
+                    </nav>
                 </div>
             </div>
+        </div>
     </main>
 
     <footer class="footer">
