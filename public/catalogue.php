@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../app/data.php';
 // $products est maintenant disponible
 
+
 //Compteurs pour les stats
 $inStock = 0;
 $onSale = 0;
@@ -27,6 +28,19 @@ function isAvailable($stock)
     if ($stock > 0)
         return true;
     return false;
+}
+
+function displayBadge(array $product) : string{
+    $badges = "";
+    if ($product["new"])
+        $badges = $badges."<span class=\"badge badge--new\">Nouveau</span>";
+    if ($product["discount"] > 0)
+        $badges = $badges.'<span class="badge badge--promo">-'.$product["discount"].'%</span>';
+    if ($product["stock"] < 5 && $product["stock"] > 0)
+        $badges = $badges."<span class=\"badge badge--low-stock\">Derniers</span>";
+    elseif ($product["stock"] === 0)
+        $badges = $badges."<span class=\"badge badge--out-of-stock\">Rupture</span>";
+    return $badges;
 }
 
 ?>
@@ -152,10 +166,7 @@ function isAvailable($stock)
                                 <div class="product-card__image-wrapper">
                                     <img src="<?= $product["image"] ?>" alt="<?= $product["name"] ?>" class="product-card__image">
                                     <div class="product-card__badges">
-                                        <?= $product["new"] ? "<span class=\"badge badge--new\">Nouveau</span>" : ""?>
-                                        <?= $product["discount"] > 0 ? '<span class="badge badge--promo">-'.$product["discount"].'%</span>' : "" ?>
-                                        <?= ($product["stock"] < 5 && $product["stock"] > 0) ? "<span class=\"badge badge--low-stock\">Derniers</span>" : "" ?>
-                                        <?= $product["stock"] === 0 ? "<span class=\"badge badge--out-of-stock\">Rupture</span>" :"" ?>
+                                        <?= displayBadge($product) ?>
                                     </div>
                                 </div>
                                 <div class="product-card__content">
