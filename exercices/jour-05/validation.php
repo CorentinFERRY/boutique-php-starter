@@ -2,16 +2,12 @@
 
 function isInStock($stock)
 {
-    if ($stock > 0)
-        return true;
-    return false;
+    return $stock > 0;
 }
 
 function isOnSale($discount)
 {
-    if ($discount > 0)
-        return true;
-    return false;
+    return $discount > 0;
 }
 
 function isNew($dateAdded)
@@ -24,9 +20,7 @@ function isNew($dateAdded)
 
 function canOrder($stock, $quantity)
 {
-    if ($stock >= $quantity)
-        return true;
-    return false;
+    return $stock >= $quantity;
 }
 
 var_dump(isInStock(5));
