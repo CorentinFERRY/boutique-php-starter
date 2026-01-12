@@ -78,9 +78,11 @@ $products = [
 function displaySearchProducts ($products,$recherche){
     $display = ""; 
     foreach($products as $product){
-        if($recherche !== "" && stripos($product['name'],$recherche) !== false){
-            $display = $display."<h2>".$product['name']."</h2>"."<p>".$product['price']."</p>";
+        if(stripos($product['name'],$recherche) === false){
+            continue;
         }
+        else
+            $display = $display."<h2>".$product['name']."</h2>"."<p>".$product['price']."</p>";
     }
     if ($display === "")
         $display = "Aucun résultat";
