@@ -92,14 +92,15 @@ function displayCategoryOptions($products, $categorySearch)
     return $display;
 }
 
+
+
 function filterByName($products, $recherche)
 {
     $productsFiltred = [];
     foreach ($products as $product) {
-        if (stripos($product['name'], $recherche) === false) {
-            continue;
-        } else
-            $productsFiltred[] = $product;
+        if (stripos($product['name'], $recherche) !== false) {
+            $productsFiltred[] = $product;     
+        }    
     }
     return $productsFiltred;
 }
@@ -108,10 +109,10 @@ function filterByCategory($products, $category)
 {
     $productsFiltred = [];
     foreach ($products as $product) {
-        if ($category !== $product['category'])
-            continue;
-        else
+        if ($category === $product['category']){
             $productsFiltred[] = $product;
+        }
+
     }
     return $productsFiltred;
 }
@@ -120,10 +121,8 @@ function filterByPriceMin($products, $price_min)
 {
     $productsFiltred = [];
     foreach ($products as $product) {
-        if ($product['price'] <= $price_min)
-            continue;
-        else
-            $productsFiltred[] = $product;
+        if ($product['price'] >= $price_min)
+            $productsFiltred[] = $product;     
     }
     return $productsFiltred;
 }
