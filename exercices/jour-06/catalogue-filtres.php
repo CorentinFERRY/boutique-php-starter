@@ -1,6 +1,10 @@
 <?php
 
+$recherche = $_GET['recherche'] ?? null;
 $category = $_GET['category'] ?? null;
+$price_min = $_GET['price_min'] ?? null;
+$price_max = $_GET['price_max'] ?? null;
+$in_stock = $_GET['in_stock'] ?? null;
 
 $products = [
     [
@@ -107,47 +111,47 @@ function filterByName($products, $recherche)
 
 function filterByCategory($products, $category)
 {
-    $productsFiltred = [];
-    foreach ($products as $product) {
+    $productsFiltred = array_filter($products, fn($p) => $p['category'] === $category);
+    /*foreach ($products as $product) {
         if ($category === $product['category']){
             $productsFiltred[] = $product;
         }
 
-    }
+    }*/
     return $productsFiltred;
 }
 
 function filterByPriceMin($products, $price_min)
 {
-    $productsFiltred = [];
-    foreach ($products as $product) {
-        if ($product['price'] >= $price_min)
-            $productsFiltred[] = $product;     
-    }
+    $productsFiltred = array_filter($products, fn($p) => $p['price'] >= $price_min);
+    /*foreach ($products as $product) {
+        if ($product['price'] >= $price_min){
+            $productsFiltred[] = $product;   
+        }  
+    }*/
     return $productsFiltred;
 }
 
 function filterByPriceMax($products, $price_max)
 {
-    $productsFiltred = [];
-    foreach ($products as $product) {
-        if ($product['price'] >= $price_max)
-            continue;
-        else
+    $productsFiltred = array_filter($products, fn($p) => $p['price'] <= $price_max);;
+    /*foreach ($products as $product) {
+        if ($product['price'] <= $price_max){            
             $productsFiltred[] = $product;
-    }
+        }
+    }*/
     return $productsFiltred;
 }
 
 function filterByStock($products)
 {
-    $productsFiltred = [];
-    foreach ($products as $product) {
-        if($product['stock'] === 0)
-            continue;
-        else
+    $productsFiltred = array_filter($products, fn($p) => $p['stock'] !== 0);;
+
+    /*foreach ($products as $product) {
+        if($product['stock'] !== 0){
             $productsFiltred[] = $product;
-    }
+        }
+    }*/
     return $productsFiltred;
 }
 
@@ -160,18 +164,24 @@ function displayAfterFilter($products)
     $in_stock = $_GET['in_stock'] ?? null;
     $productsFiltred = $products;
     $display = "";
-    if ($recherche !== "")
+    if ($recherche !== ""){
         $productsFiltred = filterByName($productsFiltred, $recherche);
-    if ($category !== "" && !empty($productsFiltred))
+    }
+    if ($category !== "" && !empty($productsFiltred)){
         $productsFiltred = filterByCategory($productsFiltred, $category);
-    if ($price_min !== "" && !empty($productsFiltred))
+    }
+    if ($price_min !== "" && !empty($productsFiltred)){
         $productsFiltred = filterByPriceMin($productsFiltred, $price_min);
-    if ($price_max !== "" && !empty($productsFiltred))
+    }
+    if ($price_max !== "" && !empty($productsFiltred)){
         $productsFiltred = filterByPriceMax($productsFiltred, $price_max);
-    if ($in_stock !== "" && !empty($productsFiltred))
+    }
+    if ($in_stock !== null && !empty($productsFiltred)){
         $productsFiltred = filterByStock($productsFiltred);
-    if (empty($productsFiltred))
+    }
+    if (empty($productsFiltred)){
         return "<p> Aucun résultat </p>";
+    }
     foreach ($productsFiltred as $product) {
         $display = $display . "<h2>" . $product['name'] . "</h2>" . "<p>" . $product['price'] . "</p>";
     }
@@ -208,7 +218,7 @@ function displayAfterFilter($products)
         </div>
         <div>
             <label>
-                <input type="checkbox" name="in_stock" value="1" <?= ($in_stock == 1) ? "checked" : "" ?>>
+                <input type="checkbox" name="in_stock" value="1" <?= ($in_stock === "1") ? "checked" : "" ?>>
                 <span>En stock uniquement</span>
             </label>
         </div>
