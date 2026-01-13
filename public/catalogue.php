@@ -17,6 +17,11 @@ foreach ($products as $product) {
     if ($product["discount"] > 0)  $onSale++;
     if ($product["stock"] > 0) $inStock++;
 }
+
+$categories = $_GET["categories"] ?? [];
+$sort = $_GET["sort"] ?? "name_asc";
+$page = $_GET["page"] ?? 1;
+
 ?>
 
 <!DOCTYPE html>
@@ -61,29 +66,16 @@ foreach ($products as $product) {
                  JOUR 6 : Formulaire GET + conservation valeurs
                  ============================================ -->
                 <aside class="catalog-sidebar">
-                    <form>
+                    <form action="catalogue.php" method="GET">
                         <div class="catalog-sidebar__section">
                             <h3 class="catalog-sidebar__title">Recherche</h3>
-                            <!-- JOUR 6 : value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" -->
-                            <input type="text" name="q" class="form-input" placeholder="Rechercher...">
+                            <input type="text" name="q" class="form-input" placeholder="Rechercher..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
                         </div>
 
                         <div class="catalog-sidebar__section">
                             <h3 class="catalog-sidebar__title">Catégories</h3>
                             <div class="catalog-sidebar__categories">
-                                <!-- JOUR 6 : checked si in_array(...) -->
-                                <label class="form-checkbox">
-                                    <input type="checkbox" name="categories[]" value="vetements">
-                                    <span>Vêtements (4)</span>
-                                </label>
-                                <label class="form-checkbox">
-                                    <input type="checkbox" name="categories[]" value="chaussures">
-                                    <span>Chaussures (1)</span>
-                                </label>
-                                <label class="form-checkbox">
-                                    <input type="checkbox" name="categories[]" value="accessoires">
-                                    <span>Accessoires (3)</span>
-                                </label>
+                                <?= displayCategoryOptions($products,$categories)?>
                             </div>
                         </div>
 
@@ -92,11 +84,11 @@ foreach ($products as $product) {
                             <div class="catalog-sidebar__price-inputs">
                                 <div class="form-group">
                                     <label class="form-label">Min</label>
-                                    <input type="number" name="price_min" class="form-input" placeholder="0 €" min="0">
+                                    <input type="number" name="price_min" class="form-input" placeholder="0 €" min="0" value="<?= htmlspecialchars($_GET['price_min'] ?? "") ?>">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Max</label>
-                                    <input type="number" name="price_max" class="form-input" placeholder="100 €" min="0">
+                                    <input type="number" name="price_max" class="form-input" placeholder="100 €" min="0"value="<?= htmlspecialchars($_GET['price_max'] ?? "") ?>">
                                 </div>
                             </div>
                         </div>
@@ -104,19 +96,19 @@ foreach ($products as $product) {
                         <div class="catalog-sidebar__section">
                             <h3 class="catalog-sidebar__title">Disponibilité</h3>
                             <label class="form-checkbox">
-                                <input type="checkbox" name="in_stock" value="1">
+                                <input type="checkbox" name="in_stock" value="1" <?= (htmlspecialchars($_GET['in_stock'] ?? "") === "1") ? "checked" : "" ?>>
                                 <span>En stock uniquement</span>
                             </label>
                         </div>
 
                         <button type="submit" class="btn btn--primary btn--block">Appliquer</button>
-                        <a href="catalogue.html" class="btn btn--secondary btn--block mt-sm">Réinitialiser</a>
+                        <a href="catalogue.php" class="btn btn--secondary btn--block mt-sm">Réinitialiser</a>
                     </form>
                 </aside>
 
                 <div class="catalog-main">
                     <div class="catalog-header">
-                        <p><strong><?= count($products) ?></strong> produits trouvés</p>
+                        <p><strong><?= count(applyFilters($products)) ?></strong> produits trouvés</p>
                         <div class="catalog-header__sort">
                             <label>Trier :</label>
                             <select class="form-select" style="width:auto">
@@ -133,9 +125,8 @@ foreach ($products as $product) {
                      JOUR 3 : foreach
                      JOUR 4 : Badges conditionnels
                      ============================================ -->
-                    <p> <?= "Produits en rupture : $outOfStock , Produits en promo : $onSale , Produits en stock : $inStock" ?></p><br>
                     <div class="products-grid">
-                        <?php foreach ($products as $product): ?>
+                        <?php foreach (applyFilters($products) as $product): ?>
                             <article class="product-card">
                                 <div class="product-card__image-wrapper">
                                     <img src="<?= $product["image"] ?>" alt="<?= $product["name"] ?>" class="product-card__image">

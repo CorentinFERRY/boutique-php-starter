@@ -3,6 +3,14 @@
 declare(strict_types=1);
 // Configuration du fuseau horaire.
 date_default_timezone_set('UTC');
+
+// Récupération des filtres
+
+$sort = $_GET["sort"] ?? "name_asc";
+$page = $_GET["page"] ?? 1;
+
+
+
 // Fonctions de calculs 
 
 function calculateIncludingTax(float $priceExcludingTax, float $vat = 20): float
@@ -92,6 +100,31 @@ function displayButton(int $stock): string
     return "<button class=\"btn btn--secondary btn--block\" disabled>Indisponible</button>";
 }
 
+function displayCategoryOptions(array $products, array $categoriesSelected): string
+{
+    $display = "";
+    $category = [];
+    foreach ($products as $product) {
+        if (!(in_array($product['category'], $category))) {
+            $category[] = $product['category'];
+        }
+    }
+    foreach ($category as $cat) {
+        if (in_array($cat, $categoriesSelected)) {
+            $display = $display . "<label class=\"form-checkbox\">
+                            <input type=\"checkbox\" name=\"categories[]\" value=" . $cat . " checked>
+                            <span>" . $cat . "</span>
+                            </label>";
+        } else {
+            $display = $display . "<label class=\"form-checkbox\">
+                            <input type=\"checkbox\" name=\"categories[]\" value=" . $cat . ">
+                            <span>" . $cat . "</span>
+                            </label>";
+        }
+    }
+    return $display;
+}
+
 // Fonctions de validation 
 
 function validateEmail(string $email): bool
@@ -125,6 +158,70 @@ function isNew(string $dateAdded): bool
 function canOrder(int $stock, int $quantity): bool
 {
     return $stock >= $quantity;
+}
+
+// Fonctions de filtre
+
+function filterByName(array $products, string $search): array
+{
+    $productsFiltred = [];
+    foreach ($products as $product) {
+        if (stripos($product['name'], $search) !== false) {
+            $productsFiltred[] = $product;
+        }
+    }
+    return $productsFiltred;
+}
+
+function filterByCategory(array $products, array $category): array
+{
+    $productsFiltred = array_filter($products, fn($p) => in_array($p['category'], $category));
+    return $productsFiltred;
+}
+
+function filterByPriceMin($products, $price_min)
+{
+    $productsFiltred = array_filter($products, fn($p) => $p['price'] >= $price_min);
+    return $productsFiltred;
+}
+
+function filterByPriceMax($products, $price_max)
+{
+    $productsFiltred = array_filter($products, fn($p) => $p['price'] <= $price_max);;
+    return $productsFiltred;
+}
+
+function filterByStock($products)
+{
+    $productsFiltred = array_filter($products, fn($p) => $p['stock'] !== 0);;
+    return $productsFiltred;
+}
+
+function applyFilters(array $products): array
+{
+    // Récupération des filtres
+    $search = $_GET["q"] ?? "";
+    $categories = $_GET["categories"] ?? [];
+    $priceMin = $_GET["price_min"] ?? 0;
+    $priceMax = $_GET["price_max"] ?? PHP_INT_MAX;
+    $in_stock = $_GET["in_stock"] ?? "";
+    $productsFiltred = $products;
+    if ($search !== "") {
+        $productsFiltred = filterByName($productsFiltred, $search);
+    }
+    if (!empty($categories) && !empty($productsFiltred)) {
+        $productsFiltred = filterByCategory($productsFiltred, $categories);
+    }
+    if ($priceMin !== "" && !empty($productsFiltred)) {
+        $productsFiltred = filterByPriceMin($productsFiltred, $priceMin);
+    }
+    if ($priceMax !== "" && !empty($productsFiltred)) {
+        $productsFiltred = filterByPriceMax($productsFiltred, $priceMax);
+    }
+    if ($in_stock !== "" && !empty($productsFiltred)) {
+        $productsFiltred = filterByStock($productsFiltred);
+    }
+    return $productsFiltred;
 }
 
 // Fonction de debug
