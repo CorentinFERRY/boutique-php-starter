@@ -19,8 +19,8 @@ foreach ($products as $product) {
 }
 
 $categories = $_GET["categories"] ?? [];
+$page = $_GET["page"] ?? "1";
 $sort = $_GET["sort"] ?? "name_asc";
-$page = $_GET["page"] ?? 1;
 
 ?>
 
@@ -58,15 +58,13 @@ $page = $_GET["page"] ?? 1;
                 <h1 class="page-title">Notre Catalogue</h1>
                 <p class="page-subtitle">Découvrez tous nos produits</p>
             </div>
-
             <div class="catalog-layout">
-
                 <!-- ============================================
                  SIDEBAR FILTRES
                  JOUR 6 : Formulaire GET + conservation valeurs
                  ============================================ -->
                 <aside class="catalog-sidebar">
-                    <form action="catalogue.php" method="GET">
+                    <form action="catalogue.php" method="GET" id="catalogue">
                         <div class="catalog-sidebar__section">
                             <h3 class="catalog-sidebar__title">Recherche</h3>
                             <input type="text" name="q" class="form-input" placeholder="Rechercher..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
@@ -75,7 +73,7 @@ $page = $_GET["page"] ?? 1;
                         <div class="catalog-sidebar__section">
                             <h3 class="catalog-sidebar__title">Catégories</h3>
                             <div class="catalog-sidebar__categories">
-                                <?= displayCategoryOptions($products,$categories)?>
+                                <?= displayCategoryOptions($products, $categories) ?>
                             </div>
                         </div>
 
@@ -88,7 +86,7 @@ $page = $_GET["page"] ?? 1;
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Max</label>
-                                    <input type="number" name="price_max" class="form-input" placeholder="100 €" min="0"value="<?= htmlspecialchars($_GET['price_max'] ?? "") ?>">
+                                    <input type="number" name="price_max" class="form-input" placeholder="100 €" min="0" value="<?= htmlspecialchars($_GET['price_max'] ?? "") ?>">
                                 </div>
                             </div>
                         </div>
@@ -96,7 +94,7 @@ $page = $_GET["page"] ?? 1;
                         <div class="catalog-sidebar__section">
                             <h3 class="catalog-sidebar__title">Disponibilité</h3>
                             <label class="form-checkbox">
-                                <input type="checkbox" name="in_stock" value="1" <?= (htmlspecialchars($_GET['in_stock'] ?? "") === "1") ? "checked" : "" ?>>
+                                <input type="checkbox" name="in_stock" value="1" <?= (htmlspecialchars($_GET['in_stock'] ?? "") === "1") ? "checked" : NULL ?>>
                                 <span>En stock uniquement</span>
                             </label>
                         </div>
@@ -111,11 +109,11 @@ $page = $_GET["page"] ?? 1;
                         <p><strong><?= count(applyFilters($products)) ?></strong> produits trouvés</p>
                         <div class="catalog-header__sort">
                             <label>Trier :</label>
-                            <select class="form-select" style="width:auto">
-                                <option>Nom A-Z</option>
-                                <option>Nom Z-A</option>
-                                <option>Prix ↑</option>
-                                <option>Prix ↓</option>
+                            <select name="sort" class="form-select" style="width:auto" form="catalogue">
+                                <option value="name_asc" <?= ($sort == "name_asc" ? "selected" : NULL); ?>>Nom A-Z</option>
+                                <option value="name_desc" <?= ($sort == "name_desc" ? "selected" : NULL); ?>>Nom Z-A</option>
+                                <option value="price_asc" <?= ($sort == "prix_asc" ? "selected" : NULL); ?>>Prix ↑</option>
+                                <option value="price_desc" <?= ($sort == "prix_desc" ? "selected" : NULL); ?>>Prix ↓</option>
                             </select>
                         </div>
                     </div>
@@ -126,7 +124,7 @@ $page = $_GET["page"] ?? 1;
                      JOUR 4 : Badges conditionnels
                      ============================================ -->
                     <div class="products-grid">
-                        <?php foreach (applyFilters($products) as $product): ?>
+                        <?php foreach (applyPagination(applyFilters($products),$page) as $product): ?>
                             <article class="product-card">
                                 <div class="product-card__image-wrapper">
                                     <img src="<?= $product["image"] ?>" alt="<?= $product["name"] ?>" class="product-card__image">
@@ -153,11 +151,7 @@ $page = $_GET["page"] ?? 1;
                      JOUR 6 : Générer dynamiquement
                      ============================================ -->
                     <nav class="pagination">
-                        <a class="pagination__item pagination__item--disabled">←</a>
-                        <a class="pagination__item pagination__item--active">1</a>
-                        <a class="pagination__item">2</a>
-                        <a class="pagination__item">3</a>
-                        <a class="pagination__item">→</a>
+                        <?= displayPagination(applyFilters($products), $page) ?>
                     </nav>
                 </div>
             </div>

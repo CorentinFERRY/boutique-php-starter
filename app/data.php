@@ -187,7 +187,7 @@ $products = [
         "name" => "Baskets Urbaines",
         "description" => "Baskets modernes et légères, parfaites pour la ville.",
         "category" => "Chaussures",
-        "price" => 89.90,
+        "price" => 89.99,
         "discount" => 15,
         "stock" => 25,
         "new" => true,
@@ -410,7 +410,7 @@ $products = [
         ]
     ],
     [
-        "name" => "Écharpe en coton",
+        "name" => "Echarpe en coton",
         "description" => "Écharpe légère pour la mi-saison.",
         "category" => "Accessoires",
         "price" => 21.50,

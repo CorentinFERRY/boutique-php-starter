@@ -7,7 +7,7 @@ date_default_timezone_set('UTC');
 // Récupération des filtres
 
 $sort = $_GET["sort"] ?? "name_asc";
-$page = $_GET["page"] ?? 1;
+
 
 
 
@@ -125,6 +125,31 @@ function displayCategoryOptions(array $products, array $categoriesSelected): str
     return $display;
 }
 
+function displayPagination(array $products, string $page): string
+{
+    $perPage = 10;
+    $total = count($products);
+    $pages = ceil($total / $perPage);
+    $display = "";
+    if ($page == 1) {
+        $display = '<a class="pagination__item pagination__item--disabled">←</a>';
+    } else {
+        $display = '<a href="?page=' . ($page - 1) . '" class="pagination__item pagination__item">←</a>';
+    }
+    for ($i = 1; $i <= $pages; $i++) {
+        if ($page === "$i") {
+            $display = $display . '<a class="pagination__item pagination__item--active">' . $i . '</a>';
+        } else {
+            $display = $display . '<a href="?page='.($i).'" class="pagination__item">' . $i . '</a>';
+        }
+    }
+    if ($page == $pages) {
+        $display = $display . '<a class="pagination__item pagination__item--disabled">→</a>';
+    } else {
+        $display = $display . '<a href="?page='.($page + 1).'" class="pagination__item pagination__item">→</a>';
+    }
+    return $display;
+}
 // Fonctions de validation 
 
 function validateEmail(string $email): bool
@@ -179,21 +204,21 @@ function filterByCategory(array $products, array $category): array
     return $productsFiltred;
 }
 
-function filterByPriceMin(array $products, string $price_min) : array
+function filterByPriceMin(array $products, string $price_min): array
 {
     $productsFiltred = array_filter($products, fn($p) => $p['price'] >= $price_min);
     return $productsFiltred;
 }
 
-function filterByPriceMax($products, string $price_max) : array
+function filterByPriceMax($products, string $price_max): array
 {
     $productsFiltred = array_filter($products, fn($p) => $p['price'] <= $price_max);;
     return $productsFiltred;
 }
 
-function filterByStock(array $products) : array
+function filterByStock(array $products): array
 {
-    $productsFiltred = array_filter($products, fn($p) => $p['stock'] !== 0);;
+    $productsFiltred = array_filter($products, fn($p) => $p['stock'] !== 0);
     return $productsFiltred;
 }
 
@@ -202,10 +227,12 @@ function applyFilters(array $products): array
     // Récupération des filtres
     $search = $_GET["q"] ?? "";
     $categories = $_GET["categories"] ?? [];
-    $priceMin = $_GET["price_min"] ?? 0;
-    $priceMax = $_GET["price_max"] ?? PHP_INT_MAX;
+    $priceMin = $_GET["price_min"] ?? "";
+    $priceMax = $_GET["price_max"] ?? "";
     $in_stock = $_GET["in_stock"] ?? "";
+    $sort = $_GET["sort"] ?? "name_asc";
     $productsFiltred = $products;
+
     if ($search !== "") {
         $productsFiltred = filterByName($productsFiltred, $search);
     }
@@ -221,7 +248,28 @@ function applyFilters(array $products): array
     if ($in_stock !== "" && !empty($productsFiltred)) {
         $productsFiltred = filterByStock($productsFiltred);
     }
+    // Tri 
+    usort($productsFiltred, function ($a, $b) use ($sort) {
+        if ($sort === "name_asc") {
+            return strcmp($a["name"], $b["name"]);
+        }
+        if ($sort === "name_desc") {
+            return strcmp($b["name"], $a["name"]);
+        }
+        if ($sort === "price_asc") {
+            return $a['price'] <=> $b['price'];
+        }
+        if ($sort === "price_desc") {
+            return $b['price'] <=> $a['price'];
+        }
+    });
     return $productsFiltred;
+}
+
+function applyPagination(array $products, string $page): array
+{
+    $perPage = 10;
+    return array_slice($products, ($page - 1) * $perPage, $perPage);
 }
 
 // Fonction de debug
