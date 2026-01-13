@@ -179,19 +179,19 @@ function filterByCategory(array $products, array $category): array
     return $productsFiltred;
 }
 
-function filterByPriceMin($products, $price_min)
+function filterByPriceMin(array $products, string $price_min) : array
 {
     $productsFiltred = array_filter($products, fn($p) => $p['price'] >= $price_min);
     return $productsFiltred;
 }
 
-function filterByPriceMax($products, $price_max)
+function filterByPriceMax($products, string $price_max) : array
 {
     $productsFiltred = array_filter($products, fn($p) => $p['price'] <= $price_max);;
     return $productsFiltred;
 }
 
-function filterByStock($products)
+function filterByStock(array $products) : array
 {
     $productsFiltred = array_filter($products, fn($p) => $p['stock'] !== 0);;
     return $productsFiltred;
