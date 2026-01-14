@@ -12,6 +12,7 @@ if (!isset($_SESSION['visits'])) {
 } else {
     $_SESSION['visits']++;
 }
+
 ?>
 
 <!DOCTYPE html>
