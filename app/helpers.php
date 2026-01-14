@@ -134,19 +134,19 @@ function displayPagination(array $products, string $page): string
     if ($page == 1) {
         $display = '<a class="pagination__item pagination__item--disabled">←</a>';
     } else {
-        $display = '<a href="?page=' . ($page - 1) . '" class="pagination__item pagination__item">←</a>';
+        $display = '<a href="?&page=' . ($page - 1) . '" class="pagination__item pagination__item">←</a>';
     }
     for ($i = 1; $i <= $pages; $i++) {
         if ($page === "$i") {
             $display = $display . '<a class="pagination__item pagination__item--active">' . $i . '</a>';
         } else {
-            $display = $display . '<a href="?page='.($i).'" class="pagination__item">' . $i . '</a>';
+            $display = $display . '<a href="?&page='.($i).'" class="pagination__item">' . $i . '</a>';
         }
     }
     if ($page == $pages) {
         $display = $display . '<a class="pagination__item pagination__item--disabled">→</a>';
     } else {
-        $display = $display . '<a href="?page='.($page + 1).'" class="pagination__item pagination__item">→</a>';
+        $display = $display . '<a href="?&page='.($page + 1).'" class="pagination__item pagination__item">→</a>';
     }
     return $display;
 }
