@@ -146,7 +146,7 @@ function displayPagination(array $products, string $page): string
     if ($page == $pages) {
         $display = $display . '<a class="pagination__item pagination__item--disabled">→</a>';
     } else {
-        $display = $display . '<a href="?&page='.($page + 1).'" class="pagination__item pagination__item">→</a>';
+        $display = $display . '<a href="?page='.($page + 1).'" class="pagination__item pagination__item">→</a>';
     }
     return $display;
 }

@@ -41,7 +41,7 @@ function displayProducts ($products){
     <form action="recherche.php" method="GET">
         <label for="recherche">Recherche : </label>
         <input type="text" id="recherche" name ="recherche" value="<?= $search ?>">
-        <button typr="submit">Rechercher</button>
+        <button type="submit">Rechercher</button>
     </form> 
     <?= displayProducts($products) ?>
 </body>
