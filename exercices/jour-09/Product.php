@@ -1,39 +1,22 @@
 <?php
-
-class Category
-{
-
-    public function __construct(
-        public int $id,
-        private string $name,
-        
-    ) {}
-
-    public function getName() :string {
-        return $this->name;
-    }
-
-    public function getSlug(): string
-    {
-        $slug = strtolower($this->nom);
-        $slug = str_replace(' ', '-', $slug);
-        return $slug;
-    }
-}
-
+require_once "Category.php";
 Class Product {
+
+    /** @var Category[] */
+    private array $category = [];
+
     public function __construct(
         private int $id,
         private string $name,
         public string $description,
         private float $price,
         private int $stock,
-        private Category $category,
     ) {
         $this->setPrice($price);
         $this->setStock($stock);
     }
 
+    // Getter
     public function getName() : string 
     {
         return $this->name;
@@ -51,11 +34,12 @@ Class Product {
         return $this->id;
     }
 
-    public function getCategory() : Category
+    public function getPriceIncludingTax(float $vat = 20) : float
     {
-        return $this->category;
+        return $this->price / $vat + $this->price;
     }
 
+    // Setter
     public function setPrice(float $price): void
     {
         if ($price < 0) {
@@ -72,10 +56,12 @@ Class Product {
         $this->stock = $stock;
     }
 
-    public function getPriceIncludingTax(float $vat = 20) : float
-    {
-        return $this->price / $vat + $this->price;
+    public function addCategory (Category $category, int $id = 1){
+        if (!isset($this->category[$id])) {
+            $this->category[$id] = $category; 
+        }
     }
+    
 
     public function isInStock () :bool{
         return $this->stock > 0;
