@@ -13,7 +13,6 @@ class Product
     ) {
         $this->setPrice($price);
         $this->setStock($stock);
-        throw new \Exception('Not implemented');
     }
 
     public function setPrice(float $price): void
@@ -22,6 +21,12 @@ class Product
             throw new InvalidArgumentException("Prix négatif interdit");
         }
         $this->price = $price;
+    }
+    public function getPrice() : float{
+        return $this->price;
+    }
+    public function getStock() : int{
+        return $this->stock;
     }
     public function setStock(float $stock): void
     {
