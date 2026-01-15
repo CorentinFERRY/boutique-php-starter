@@ -61,12 +61,11 @@ class Cart
             // Produit déjà dans le panier → augmenter quantité
             $currentQuantity = $this->items[$id]->getQuantity();
             $this->items[$id]->setQuantity($currentQuantity + $quantity);
-            return $this;
         } else {
             // Nouveau produit
             $this->items[$id] = new CartItem($product, $quantity);
-            return $this;
         }
+        return $this;
     }
     
     public function removeProduct(int $productId): Cart
@@ -83,13 +82,11 @@ class Cart
                 for($i = 0; $i > $quantity; $i--){
                     $this->items[$productId]->decremente();
                 }
-                return $this;
             }
             if($quantity > 0){
                 for($i = 0; $i < $quantity; $i++){
                     $this->items[$productId]->incremente();
-                }
-                return $this;
+                }  
             }
         }
         return $this;
