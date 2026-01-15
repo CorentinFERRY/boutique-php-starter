@@ -23,7 +23,8 @@ class Category
 
 Class Product {
     public function __construct(
-        public string $name,
+        private int $id,
+        private string $name,
         public string $description,
         private float $price,
         private int $stock,
@@ -33,12 +34,21 @@ Class Product {
         $this->setStock($stock);
     }
 
+    public function getName() : string 
+    {
+        return $this->name;
+    }
+
     public function getPrice() : float{
         return $this->price;
     }
 
     public function getStock() : int{
         return $this->stock;
+    }
+
+    public function getId() : int{
+        return $this->id;
     }
 
     public function getCategory() : Category
