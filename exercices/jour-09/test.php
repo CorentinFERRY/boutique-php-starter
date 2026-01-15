@@ -104,3 +104,24 @@ echo $testOrder->getTotal() . "<br>";
 $myCart->addProduct($products[3], 2);
 echo $testOrder->getItemCount() . "<br>";
 echo $testOrder->getTotal() . "<br>";
+
+echo "<br>";
+// Exercice 6 
+
+echo "---  EXERCICE 6  ---<br><br>";
+
+
+// Test chaînage 
+
+$myCart->addProduct($products[4], 3)
+    ->removeProduct(2)
+    ->addProduct($products[1],3);
+
+foreach ($myCart->getItems() as $item) {
+    echo $item->getProduct()->getName();
+    echo " x" . $item->getQuantity();
+    echo " = " . $item->getTotal() . "€<br>";
+}
+
+$myCart->clear();
+echo "<br>";

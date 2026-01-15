@@ -53,7 +53,7 @@ class Cart
     /** @var CartItem[] */
     private array $items = [];
     
-    public function addProduct(Product $product, int $quantity = 1): void
+    public function addProduct(Product $product, int $quantity = 1) : Cart 
     {
         $id = $product->getId();
         
@@ -61,18 +61,21 @@ class Cart
             // Produit déjà dans le panier → augmenter quantité
             $currentQuantity = $this->items[$id]->getQuantity();
             $this->items[$id]->setQuantity($currentQuantity + $quantity);
+            return $this;
         } else {
             // Nouveau produit
             $this->items[$id] = new CartItem($product, $quantity);
+            return $this;
         }
     }
     
-    public function removeProduct(int $productId): void
+    public function removeProduct(int $productId): Cart
     {
         unset($this->items[$productId]);
+        return $this;
     }
     
-    public function updateProduct(int $productId,int $quantity = 1) : void
+    public function updateProduct(int $productId,int $quantity = 1) : Cart
     {
         if (isset($this->items[$productId])) { 
             // Si le produit est présent dans le panier
@@ -80,13 +83,16 @@ class Cart
                 for($i = 0; $i > $quantity; $i--){
                     $this->items[$productId]->decremente();
                 }
+                return $this;
             }
             if($quantity > 0){
                 for($i = 0; $i < $quantity; $i++){
                     $this->items[$productId]->incremente();
                 }
+                return $this;
             }
         }
+        return $this;
     }
 
     public function getItems(): array
