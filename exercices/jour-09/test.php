@@ -1,5 +1,5 @@
 <?php
-require_once "Cart.php";
+require_once "Order.php";
 
 // Exercice 1 
 
@@ -87,3 +87,20 @@ echo "<br>";
 
 $cart->clear(); // supprime le panier
 
+// Exercice 5 
+
+echo "---  EXERCICE 5  ---<br><br>";
+
+$me = new User("Corentin", "c.ferry78@laposte.net");
+$myCart = new Cart();
+
+$testOrder = new Order(1, $me, $myCart, "standby");
+
+$myCart->addProduct($products[2], 4);
+
+echo $testOrder->getItemCount() . "<br>";
+echo $testOrder->getTotal() . "<br>";
+
+$myCart->addProduct($products[3], 2);
+echo $testOrder->getItemCount() . "<br>";
+echo $testOrder->getTotal() . "<br>";
