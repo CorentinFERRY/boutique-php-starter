@@ -12,7 +12,7 @@ class Category
     public function getSlug(): string
     {
 
-        $slug = mb_strtolower($this->nom);
+        $slug = strtolower($this->nom);
         $slug = str_replace(' ', '-', $slug);
         return $slug;
     }
