@@ -2,8 +2,7 @@
 
 class Category
 {
-    private int $id = 1;
-
+    private int $id;
     public function __construct(
         private string $name,
         
@@ -19,4 +18,6 @@ class Category
         $slug = str_replace(' ', '-', $slug);
         return $slug;
     }
+
+
 }

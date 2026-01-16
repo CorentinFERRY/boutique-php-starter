@@ -1,5 +1,6 @@
 <?php
 require_once "ProductRepository.php";
+require_once "CategoryRepository.php";
 
 // Exercice 1 
 
@@ -13,6 +14,7 @@ $pdo = new PDO(
 );
 
 $myRepo = new ProductRepository($pdo);
+$myRepoCat = new CategoryRepository($pdo);
 
 $myProduct = $myRepo->find(2);
 echo $myProduct->getName() . "<br>";
@@ -124,4 +126,20 @@ foreach ($myProducts as $product) {
     echo $product->getStock() . "<br>";
     echo $product->getCategory()->getName() . "<br>";
     echo "<br>";
+}
+
+
+echo "<br>";
+echo "<br>";
+
+echo "---  EXERCICE 3  ---<br><br>";
+
+$myProduct = $myRepo->find(2);
+echo $myRepoCat->find($myProduct->getCategory())->getName();
+
+echo "<br>"; 
+
+var_dump( $myCategories = $myRepoCat->findAll());
+foreach ($myCategories as $cat){
+    echo $cat->getName() . "<br>";
 }

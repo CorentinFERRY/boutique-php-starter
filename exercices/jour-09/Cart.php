@@ -50,7 +50,7 @@ class Cart
     {
         return $this->items;
     }
-    
+
     public function getTotal(): float
     {
         $total = 0;

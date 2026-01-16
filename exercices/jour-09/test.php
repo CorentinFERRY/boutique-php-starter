@@ -57,6 +57,11 @@ $cart->addProduct($products[0], 3);
 $cart->addProduct($products[1], 13);
 $cart->addProduct($products[4]);
 
+$itemsInCart = $cart->getItems();
+var_dump($itemsInCart);
+echo "<br><br>";
+echo $itemsInCart[2]->getQuantity()."<br>" ;
+
 foreach ($cart->getItems() as $item) {
     echo $item->getProduct()->getName();
     echo " x" . $item->getQuantity();
