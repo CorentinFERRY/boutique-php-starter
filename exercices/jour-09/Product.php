@@ -2,15 +2,13 @@
 require_once "Category.php";
 Class Product {
 
-    /** @var Category[] */
-    private array $category = [];
-
     public function __construct(
         private int $id,
         private string $name,
         public string $description,
         private float $price,
         private int $stock,
+        private Category $category
     ) {
         $this->setPrice($price);
         $this->setStock($stock);
@@ -39,6 +37,11 @@ Class Product {
         return $this->price / $vat + $this->price;
     }
 
+    public function getCategory() : Category
+    {
+        return $this->category;
+    }
+
     // Setter
     public function setPrice(float $price): void
     {
@@ -55,13 +58,6 @@ Class Product {
         }
         $this->stock = $stock;
     }
-
-    public function addCategory (Category $category, int $id = 1){
-        if (!isset($this->category[$id])) {
-            $this->category[$id] = $category; 
-        }
-    }
-    
 
     public function isInStock () :bool{
         return $this->stock > 0;

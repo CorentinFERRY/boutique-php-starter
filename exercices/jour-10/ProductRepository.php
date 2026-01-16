@@ -30,12 +30,14 @@ class ProductRepository
     }
 
     private function hydrate(array $data): Product{
+        $category = new Category($data['category']);
         return new Product(
             id : (int)$data['id'],
             name: $data['name'],
             description: $data['description'],
             price: (float) $data['price'],
-            stock: (int) $data['stock']
+            stock: (int) $data['stock'],
+            category : $category
         ); 
     }
 }

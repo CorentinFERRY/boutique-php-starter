@@ -4,7 +4,6 @@ class Category
 {
 
     public function __construct(
-        public int $id,
         private string $name,
         
     ) {}

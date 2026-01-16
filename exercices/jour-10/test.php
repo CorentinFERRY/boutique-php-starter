@@ -26,6 +26,8 @@ foreach ($myProducts as $product) {
     echo $product->getName() . "<br>";
     echo $product->getPrice() . "<br>";
     echo $product->getStock() . "<br>";
+    echo $product->getCategory()->getName() ."<br>";
+    echo "<br>";
 }
 
 
