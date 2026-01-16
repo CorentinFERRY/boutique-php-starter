@@ -2,6 +2,7 @@
 
 class Category
 {
+    private int $id = 1;
 
     public function __construct(
         private string $name,

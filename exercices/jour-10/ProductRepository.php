@@ -29,39 +29,51 @@ class ProductRepository
     // CREATE
     public function save(Product $product): void
     {
-        $stmt = $this->pdo->prepare("INSERT INTO products (id,name,description,price,stock,category) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([
-            $product->getId(),
-            $product->getName(),
-            $product->getDescription(),
-            $product->getPriceIncludingTax(),
-            $product->getStock(),
-            $product->getCategory()->getName()
-        ]);
+        if ($this->find($product->getId()) === null) {
+            $stmt = $this->pdo->prepare("INSERT INTO products (id,name,description,price,stock,category) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([
+                $product->getId(),
+                $product->getName(),
+                $product->getDescription(),
+                $product->getPriceIncludingTax(),
+                $product->getStock(),
+                $product->getCategory()->getName()
+            ]);
+        } else {
+            throw new InvalidArgumentException("Id déjà utilisé !");
+        }
     }
 
     // UPDATE 
-    public function update(Product $product) : void
+    public function update(Product $product): void
     {
-        $stmt = $this->pdo->prepare("UPDATE products SET name = ?, description = ?, price = ?, stock = ?, category = ? WHERE id = ?");
-        $stmt->execute([
-            $product->getName(),
-            $product->getDescription(),
-            $product->getPriceIncludingTax(),
-            $product->getStock(),
-            $product->getCategory()->getName(),
-            $product->getId()
-        ]);
+        if ($this->find($product->getId()) !== null) {
+            $stmt = $this->pdo->prepare("UPDATE products SET name = ?, description = ?, price = ?, stock = ?, category = ? WHERE id = ?");
+            $stmt->execute([
+                $product->getName(),
+                $product->getDescription(),
+                $product->getPriceIncludingTax(),
+                $product->getStock(),
+                $product->getCategory()->getName(),
+                $product->getId()
+            ]);
+        } else {
+            throw new InvalidArgumentException("Le produit n'existe pas !");
+        }
     }
 
     // DELETE
-
-    public function delete(Product $product) : void
+    public function delete(Product $product): void
     {
-        $stmt = $this->pdo->prepare("DELETE FROM products WHERE id = ?");
-        $stmt->execute([$product->getId()]);
+        if ($this->find($product->getId()) !== null) {
+            $stmt = $this->pdo->prepare("DELETE FROM products WHERE id = ?");
+            $stmt->execute([$product->getId()]);
+        } else {
+            throw new InvalidArgumentException("Le produit n'existe pas !");
+        }
     }
 
+    // Permet après la récupération d'avoir un objet Produit 
     private function hydrate(array $data): Product
     {
         $category = new Category($data['category']);
@@ -73,5 +85,29 @@ class ProductRepository
             stock: (int) $data['stock'],
             category: $category
         );
+    }
+
+    public function findByCategory(string $category) : array {
+        $stmt = $this->pdo->prepare("SELECT * FROM products WHERE category = ?");
+        $stmt->execute([$category]);
+        return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
+    }
+
+    public function findInStock() : array {
+        $stmt = $this->pdo->prepare("SELECT * FROM products WHERE stock > 0");
+        $stmt->execute();
+        return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
+    }
+
+    public function findByPriceRange(float $min, float $max) : array {
+        $stmt = $this->pdo->prepare("SELECT * FROM products WHERE price BETWEEN ? AND ?");
+        $stmt->execute([$min,$max]);
+        return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
+    }
+
+    public function search(string $term) : array{
+        $stmt = $this->pdo->prepare("SELECT * FROM products WHERE name LIKE ?");
+        $stmt->execute(['%'.$term.'%']);
+        return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 }
