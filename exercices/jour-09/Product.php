@@ -5,7 +5,7 @@ Class Product {
     public function __construct(
         private int $id,
         private string $name,
-        public string $description,
+        private string $description,
         private float $price,
         private int $stock,
         private Category $category
@@ -30,6 +30,10 @@ Class Product {
 
     public function getId() : int{
         return $this->id;
+    }
+
+    public function getDescription() : string {
+        return $this->description;
     }
 
     public function getPriceIncludingTax(float $vat = 20) : float

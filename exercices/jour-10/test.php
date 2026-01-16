@@ -26,10 +26,52 @@ foreach ($myProducts as $product) {
     echo $product->getName() . "<br>";
     echo $product->getPrice() . "<br>";
     echo $product->getStock() . "<br>";
-    echo $product->getCategory()->getName() ."<br>";
+    echo $product->getCategory()->getName() . "<br>";
     echo "<br>";
 }
 
 
 echo "<br>";
 echo "<br>";
+
+echo "---  EXERCICE 2  ---<br><br>";
+
+$catTest = new Category("Testeur");
+$testProduct = new Product(9, "CeProduitDeTEST", "c'estuntest", 25, 2, $catTest);
+
+// Test des méthodes save() update() and delete() de ProductRepository
+$myRepo->save($testProduct);
+
+$myProducts = $myRepo->findAll();
+
+foreach ($myProducts as $product) {
+    echo $product->getName() . "<br>";
+    echo $product->getPrice() . "<br>";
+    echo $product->getStock() . "<br>";
+    echo $product->getCategory()->getName() . "<br>";
+    echo "<br>";
+}
+
+$testProduct = new Product(9, "Ce", "c'estuntest", 25, 2, $catTest);
+$myRepo->update($testProduct);
+
+$myProducts = $myRepo->findAll();
+
+foreach ($myProducts as $product) {
+    echo $product->getName() . "<br>";
+    echo $product->getPrice() . "<br>";
+    echo $product->getStock() . "<br>";
+    echo $product->getCategory()->getName() . "<br>";
+    echo "<br>";
+}
+
+$myRepo->delete($testProduct);
+
+$myProducts = $myRepo->findAll();
+foreach ($myProducts as $product) {
+    echo $product->getName() . "<br>";
+    echo $product->getPrice() . "<br>";
+    echo $product->getStock() . "<br>";
+    echo $product->getCategory()->getName() . "<br>";
+    echo "<br>";
+}
