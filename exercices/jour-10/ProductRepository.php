@@ -1,7 +1,7 @@
 <?php
 
-require_once "../jour-09/Product.php";
-require_once "../jour-09/Category.php";
+require_once "Product.php";
+require_once "Category.php";
 
 class ProductRepository
 {
@@ -30,14 +30,15 @@ class ProductRepository
     public function save(Product $product): void
     {
         if ($this->find($product->getId()) === null) {
-            $stmt = $this->pdo->prepare("INSERT INTO products (id,name,description,price,stock,category) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt = $this->pdo->prepare("INSERT INTO products (id,name,description,price,stock,category,category_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $product->getId(),
                 $product->getName(),
                 $product->getDescription(),
                 $product->getPriceIncludingTax(),
                 $product->getStock(),
-                $product->getCategory()->getName()
+                $product->getCategory()->getName(),
+                $product->getCategory()->getId()
             ]);
         } else {
             throw new InvalidArgumentException("Id déjà utilisé !");
@@ -48,14 +49,14 @@ class ProductRepository
     public function update(Product $product): void
     {
         if ($this->find($product->getId()) !== null) {
-            $stmt = $this->pdo->prepare("UPDATE products SET name = ?, description = ?, price = ?, stock = ?, category = ? WHERE id = ?");
+            $stmt = $this->pdo->prepare("UPDATE products SET name = ?, description = ?, price = ?, stock = ?, category = ?  WHERE id = ?");
             $stmt->execute([
                 $product->getName(),
                 $product->getDescription(),
                 $product->getPriceIncludingTax(),
                 $product->getStock(),
                 $product->getCategory()->getName(),
-                $product->getId()
+                $product->getId(),
             ]);
         } else {
             throw new InvalidArgumentException("Le produit n'existe pas !");
@@ -76,7 +77,7 @@ class ProductRepository
     // Permet après la récupération d'avoir un objet Produit 
     private function hydrate(array $data): Product
     {
-        $category = new Category($data['category']);
+        $category = new Category($data['category_id'], $data['category']);
         return new Product(
             id: (int)$data['id'],
             name: $data['name'],
@@ -87,27 +88,31 @@ class ProductRepository
         );
     }
 
-    public function findByCategory(string $category) : array {
-        $stmt = $this->pdo->prepare("SELECT * FROM products WHERE category = ?");
-        $stmt->execute([$category]);
+    public function findByCategory(int $idCategroy): array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM products WHERE category_id = ?");
+        $stmt->execute([$idCategroy]);
         return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
-    public function findInStock() : array {
+    public function findInStock(): array
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM products WHERE stock > 0");
         $stmt->execute();
         return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
-    public function findByPriceRange(float $min, float $max) : array {
+    public function findByPriceRange(float $min, float $max): array
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM products WHERE price BETWEEN ? AND ?");
-        $stmt->execute([$min,$max]);
+        $stmt->execute([$min, $max]);
         return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
-    public function search(string $term) : array{
+    public function search(string $term): array
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM products WHERE name LIKE ?");
-        $stmt->execute(['%'.$term.'%']);
+        $stmt->execute(['%' . $term . '%']);
         return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 }

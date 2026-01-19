@@ -1,5 +1,6 @@
 <?php
 require_once "Category.php";
+
 Class Product {
 
     public function __construct(

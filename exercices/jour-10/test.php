@@ -20,6 +20,7 @@ $myProduct = $myRepo->find(2);
 echo $myProduct->getName() . "<br>";
 echo $myProduct->getPrice() . "<br>";
 echo $myProduct->getStock() . "<br>";
+echo $myProduct->getCategoryId() . "<br>";
 echo "<br>";
 
 $myProducts = $myRepo->findAll();
@@ -38,10 +39,11 @@ echo "<br>";
 
 echo "---  EXERCICE 2  ---<br><br>";
 
-$catTest = new Category("Testeur");
+$catTest = new Category(4,"Testeur");
 $testProduct = new Product(6, "CeProduitDeTEST", "c'estuntest", 25, 2, $catTest);
 
 // Test des méthodes save() update() and delete() de ProductRepository
+$myRepoCat->save($catTest);
 $myRepo->save($testProduct);
 
 $myProducts = $myRepo->findAll();
@@ -67,7 +69,10 @@ foreach ($myProducts as $product) {
     echo "<br>";
 }
 
+
 $myRepo->delete($testProduct);
+$myRepoCat->delete($catTest);
+
 echo "Les produits dans ma BDD après la suppression <br>";
 $myProducts = $myRepo->findAll();
 foreach ($myProducts as $product) {
@@ -88,7 +93,7 @@ echo "<br>";
 echo "---  EXERCICE 3  ---<br><br>";
 
 echo "Les produits de la categorie Accessoires dans ma BDD <br>";
-$myProducts = $myRepo->findByCategory("Accessoires");
+$myProducts = $myRepo->findByCategory(2);
 foreach ($myProducts as $product) {
     echo $product->getName() . "<br>";
     echo $product->getPrice() . "<br>";
@@ -132,14 +137,6 @@ foreach ($myProducts as $product) {
 echo "<br>";
 echo "<br>";
 
-echo "---  EXERCICE 3  ---<br><br>";
+echo "---  EXERCICE 4  ---<br><br>";
 
-$myProduct = $myRepo->find(2);
-echo $myRepoCat->find($myProduct->getCategory())->getName();
-
-echo "<br>"; 
-
-var_dump( $myCategories = $myRepoCat->findAll());
-foreach ($myCategories as $cat){
-    echo $cat->getName() . "<br>";
-}
+$test = $myRepoCat->findWithProducts();
