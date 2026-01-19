@@ -36,7 +36,7 @@ class CategoryRepository
         }
     }
 
-    public function update(Category $cat): void 
+    public function update(Category $cat): void
     {
         if ($this->find($cat->getId()) !== null) {
             $stmt = $this->pdo->prepare("UPDATE categories SET name = ? WHERE id = ?");
@@ -49,15 +49,14 @@ class CategoryRepository
         }
     }
 
-    public function delete(Category $cat): void 
+    public function delete(Category $cat): void
     {
-        if($this->find($cat->getId()) !== null){
+        if ($this->find($cat->getId()) !== null) {
             $stmt = $this->pdo->prepare("DELETE FROM categories WHERE id = ?");
             $stmt->execute([$cat->getId()]);
         } else {
             throw new InvalidArgumentException("La catégorie n'existe pas !");
         }
-
     }
 
     private function hydrate(array $data): Category
@@ -66,16 +65,14 @@ class CategoryRepository
         return $newCategory;
     }
 
-    public function findWithProducts() : array 
+    public function findWithProducts(): array
     {
         $categoriesWithProducts = [];
         $producRepo = new ProductRepository($this->pdo);
-        $categories = $this->findAll();  
-        foreach($categories as $cat){
-            $categoriesWithProducts [$cat->getName()] = $producRepo->findByCategory($cat->getId());
-            print_r($categoriesWithProducts);
+        $categories = $this->findAll();
+        foreach ($categories as $cat) {
+            $categoriesWithProducts[$cat->getName()] = $producRepo->findByCategory($cat->getId());
         }
-        
         return $categoriesWithProducts;
     }
 }

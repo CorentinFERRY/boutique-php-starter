@@ -1,6 +1,7 @@
 <?php
 require_once "ProductRepository.php";
 require_once "CategoryRepository.php";
+require_once "UserRepository.php";
 
 // Exercice 1 
 
@@ -148,3 +149,26 @@ echo "<br>";
 
 echo "---  EXERCICE 5  ---<br><br>";
 
+$myRepoUser = new UserRepository($pdo);
+$testUser = new User(2,"Corentin","c.ferry78@laposte.net","testastos",'admin');
+
+$myRepoUser->save($testUser);
+
+$myUser = $myRepoUser->find(1);
+echo $myUser->getName() . "<br>";
+echo $myUser->getMail() . "<br>";
+echo $myUser->getPassword() . "<br>";
+echo $myUser->getRole() . "<br>";
+echo "<br>";
+
+$myUser = $myRepoUser->findAll();
+
+foreach($myUser as $user){
+    echo $user->getName() . "<br>";
+    echo $user->getMail() . "<br>";
+    echo $user->getPassword() . "<br>";
+    echo $user->getRole() . "<br>";
+    echo "<br>";
+}
+
+$myRepoUser->delete($testUser);

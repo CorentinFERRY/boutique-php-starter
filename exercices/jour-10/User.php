@@ -15,7 +15,7 @@ class User
         private string $role = 'user',
         private DateTime $dateInscription = new DateTime('now'),
     ) {
-        $this->setRole($role);
+        //$this->setRole($role);
     }
 
     public function getId() : int {
