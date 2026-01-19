@@ -2,20 +2,32 @@
 require_once "ProductRepository.php";
 require_once "CategoryRepository.php";
 require_once "UserRepository.php";
+require_once "Database.php";
 
-// Exercice 1 
 
-echo "---  EXERCICE 1  ---<br><br>";
-
+// Avant la Class Database.php
+/*
 $pdo = new PDO(
     "mysql:host=localhost;dbname=boutique",
     "dev",
     "dev",
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION] // Gestion d'erreurs
-);
+); 
+*/
+
+//Après la Class Database.pph
+
+$pdo = Database::getInstance();
+
+// Exercice 1 
+
+echo "---  EXERCICE 1  ---<br><br>";
+
+
 
 $myRepo = new ProductRepository($pdo);
 $myRepoCat = new CategoryRepository($pdo);
+
 
 $myProduct = $myRepo->find(2);
 echo $myProduct->getName() . "<br>";
