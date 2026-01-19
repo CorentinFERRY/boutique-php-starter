@@ -140,3 +140,11 @@ echo "<br>";
 echo "---  EXERCICE 4  ---<br><br>";
 
 $test = $myRepoCat->findWithProducts();
+print_r($test);
+
+
+echo "<br>";
+echo "<br>";
+
+echo "---  EXERCICE 5  ---<br><br>";
+

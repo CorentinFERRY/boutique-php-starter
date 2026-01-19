@@ -40,7 +40,10 @@ class CategoryRepository
     {
         if ($this->find($cat->getId()) !== null) {
             $stmt = $this->pdo->prepare("UPDATE categories SET name = ? WHERE id = ?");
-            $stmt->execute([$cat->getName()]);
+            $stmt->execute([
+                $cat->getName(),
+                $cat->getId()
+            ]);
         } else {
             throw new InvalidArgumentException("La catégorie n'existe pas !");
         }
