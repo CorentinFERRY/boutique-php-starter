@@ -1,6 +1,8 @@
 <?php
+namespace Config;
+use PDO;
 
-class Database
+class MyDatabase
 {
     private static ?PDO $instance = null;
 
@@ -13,7 +15,8 @@ class Database
                 "dev",
                 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION] // Gestion d'erreurs
             );
-        }
+        } 
         return self::$instance;
+        
     }
 }

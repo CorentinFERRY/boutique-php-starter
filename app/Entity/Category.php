@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Entity;
 class Category
 {
     
@@ -19,7 +19,7 @@ class Category
 
     public function getSlug(): string
     {
-        $slug = strtolower($this->nom);
+        $slug = strtolower($this->name);
         $slug = str_replace(' ', '-', $slug);
         return $slug;
     }

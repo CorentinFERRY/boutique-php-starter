@@ -1,7 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../Repository/ProductRepository.php';
+namespace App\Controller;
+
+use App\Repository\ProductRepository;
+use Config\MyDatabase;
 
 class CartController
 {
@@ -10,7 +12,7 @@ class CartController
 
     public function __construct()
     {
-        $pdo = Database::getInstance();
+        $pdo = MyDatabase::getInstance();
         $this->repository = new ProductRepository($pdo);
     }
 
@@ -41,7 +43,7 @@ class CartController
             $_SESSION['cart'][$productId] += $quantity;
         }
 
-        // Toujours rediriger après un POST !
+        // Redirection vers le panier après le POST
         $this->redirect('/panier');
     }
 
@@ -57,11 +59,12 @@ class CartController
         $this->redirect('/panier');
     }
 
-     //POST /panier/update
+     //POST /panier/modifier
     public function update(): void{
         $productId = $_POST['product_id'] ?? null;
         $quantity = (int) ($_POST['quantity'] ?? 0);
         if($quantity === 0){
+        //Si ma quantitée atteint 0 suppression du panier
             $this->remove();
         }
         if($productId && $quantity > 0){
@@ -70,6 +73,7 @@ class CartController
         $this->redirect('/panier');
     }
 
+    // Fonction de redirection
     protected function redirect(string $url): void
     {
         header("Location: $url");

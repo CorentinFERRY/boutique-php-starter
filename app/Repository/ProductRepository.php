@@ -1,6 +1,10 @@
 <?php
-require_once __DIR__.'/../Entity/Category.php';
-require_once __DIR__.'/../Entity/Product.php';
+namespace App\Repository;
+
+use PDO;
+use InvalidArgumentException;
+use App\Entity\Product;
+use App\Entity\Category;
 
 class ProductRepository
 {

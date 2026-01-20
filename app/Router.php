@@ -1,7 +1,5 @@
 <?php
-require_once __DIR__ . '/../app/Controller/HomeController.php';
-require_once __DIR__ . '/../app/Controller/ProductController.php';
-require_once __DIR__.'/../app/Controller/CartController.php';
+namespace App;
 
 class Router
 {

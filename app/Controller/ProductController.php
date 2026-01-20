@@ -1,7 +1,10 @@
 <?php 
 
-require_once __DIR__.'/../../config/database.php';
-require_once __DIR__.'/../Repository/ProductRepository.php';
+namespace App\Controller;
+
+use Config\MyDatabase;
+use App\Repository\ProductRepository;
+
 
 class ProductController
 {
@@ -9,7 +12,7 @@ class ProductController
 
     public function __construct()
     {
-        $pdo = Database::getInstance();
+        $pdo = MyDatabase::getInstance();
         $this->repository = new ProductRepository($pdo);
     }
 

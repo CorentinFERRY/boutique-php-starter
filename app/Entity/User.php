@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__.'/Address.php';
+namespace App\Entity;
 
+use DateTime;
 class User
 {
 

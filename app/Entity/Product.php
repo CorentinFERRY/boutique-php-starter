@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__.'/Category.php';
+namespace App\Entity;
 
+use InvalidArgumentException;
 Class Product {
 
     public function __construct(

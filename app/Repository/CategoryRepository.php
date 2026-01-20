@@ -1,5 +1,10 @@
 <?php
-require_once __DIR__.'/../Entity/Category.php';
+
+namespace App\Repository;
+
+use App\Entity\Category;
+use PDO;
+use InvalidArgumentException;
 
 class CategoryRepository
 {

@@ -1,6 +1,11 @@
 <?php
 
-require_once __DIR__.'/../app/Router.php';
+namespace App\config;
+
+use App\Controller\CartController;
+use App\Controller\HomeController;
+use App\Controller\ProductController;
+use App\Router;
 
 // config/routes.php
 $router = new Router();
