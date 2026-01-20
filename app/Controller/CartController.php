@@ -27,6 +27,7 @@ class CartController
                 $products [] = $this->repository->find($productId);
             }
         }
+        $totalItemsCart = count($products);
         require __DIR__ . '/../../views/cart/index.php';
     }
 
