@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../app/Controller/HomeController.php';
 require_once __DIR__ . '/../app/Controller/ProductController.php';
+require_once __DIR__.'/../app/Controller/CartController.php';
 
 class Router
 {
@@ -16,7 +17,10 @@ class Router
 
     public function post(string $path, array $action): void
     {
-        $this->routes['POST'][$path] = $action;
+        // Remplace {id} par (?P<id>[^/]+)
+        $regex = preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $path);
+        $regex = '#^' . $regex . '$#';
+        $this->routes['POST'][$regex] = $action;
     }
 
     public function dispatch(string $uri, string $method): void
