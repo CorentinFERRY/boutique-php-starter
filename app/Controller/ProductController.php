@@ -33,11 +33,13 @@ class ProductController
         $product = $this->repository->find((int)$id);
         if (!$product) {
             http_response_code(404);
-            require __DIR__ . '/../../views/errors/404.php';
+            view("error/404",[
+                'title' => "Not found"
+            ]);
             return;
         }
         view("products/show", [
-            'title' => $product->getName(),
+            'title' => e($product->getName()),
             'product' => $product
         ]);
     }
