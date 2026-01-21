@@ -1,10 +1,9 @@
-<?php 
+<?php
 
 namespace App\Controller;
 
 use Config\MyDatabase;
 use App\Repository\ProductRepository;
-
 
 class ProductController
 {
@@ -16,16 +15,19 @@ class ProductController
         $this->repository = new ProductRepository($pdo);
     }
 
-    public function index() : void
+    public function index(): void
     {
         $products = $this->repository->findAll();
-        require __DIR__ . '/../../views/products/index.php';
+        view('products/index', [
+            'title' => "Catalogue",
+            'products' => $products
+        ]);
     }
 
-    public function show(string $id) : void
-    {       
-        if(!$id){
-            $this->redirect('/produits');
+    public function show(string $id): void
+    {
+        if (!$id) {
+            redirect('/produits');
             return;
         }
         $product = $this->repository->find((int)$id);
@@ -34,13 +36,16 @@ class ProductController
             require __DIR__ . '/../../views/errors/404.php';
             return;
         }
-        require __DIR__ . '/../../views/products/show.php';
+        view("products/show", [
+            'title' => $product->getName(),
+            'product' => $product
+        ]);
     }
 
 
-     protected function redirect(string $url): void
+    /*  protected function redirect(string $url): void
     {
         header("Location: $url");
         exit;
-    }
+    } */
 }

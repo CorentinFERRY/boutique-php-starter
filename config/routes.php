@@ -5,7 +5,7 @@ namespace App\config;
 use App\Controller\CartController;
 use App\Controller\HomeController;
 use App\Controller\ProductController;
-use App\Router;
+use App\Entity\Router;
 
 // config/routes.php
 $router = new Router();

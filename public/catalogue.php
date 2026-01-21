@@ -4,7 +4,7 @@ declare(strict_types=1);
 // starter-project/public/catalogue.php
 require_once __DIR__ . '/../app/data.php';
 // $products est maintenant disponible
-require_once __DIR__ . '/../app/helpers.php';
+require_once __DIR__ . '/../app/helpers1.php';
 // Les fonction de helpers sont maintenant disponible
 
 //Compteurs pour les stats

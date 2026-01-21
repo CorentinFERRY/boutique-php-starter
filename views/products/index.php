@@ -1,14 +1,8 @@
-<?php
-// views/products/index.php
-$title = "Nos produits";
-
-ob_start(); // Commence à capturer le HTML
-?>
 <h1>Catalogue</h1>
 
 <?php foreach ($products as $product): ?>
     <article>
-        <h2><?= htmlspecialchars($product->getName()) ?></h2>
+        <h2><?= e($product->getName()) ?></h2>
         <p><?= $product->getPrice() ?> €</p>
         <a href="/produit/<?= $product->getId() ?>">Voir</a>
         <form action="/panier/ajouter" method="POST">
@@ -19,7 +13,3 @@ ob_start(); // Commence à capturer le HTML
     </article>
 <?php endforeach; ?>
 <a href="/panier">Voir le panier</a>
-
-<?php
-$content = ob_get_clean(); // Récupère le HTML capturé
-require __DIR__ . '/../layout.php'; // Injecte dans le layout

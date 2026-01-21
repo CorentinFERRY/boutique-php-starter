@@ -1,7 +1,6 @@
 <?php
 namespace App\Entity;
 
-use InvalidArgumentException;
 Class Product {
 
     public function __construct(
@@ -56,7 +55,7 @@ Class Product {
     public function setPrice(float $price): void
     {
         if ($price < 0) {
-            throw new InvalidArgumentException("Prix négatif interdit");
+            throw new \InvalidArgumentException("Prix négatif interdit");
         }
         $this->price = $price;
     }
@@ -64,7 +63,7 @@ Class Product {
     public function setStock(float $stock): void
     {
         if ($stock < 0) {
-            throw new InvalidArgumentException("Stock négatif interdit");
+            throw new \InvalidArgumentException("Stock négatif interdit");
         }
         $this->stock = $stock;
     }

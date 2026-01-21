@@ -1,10 +1,4 @@
-<?php
-// views/cart/index.php
-$title = "Votre Panier";
-
-ob_start(); // Commence à capturer le HTML
-?>
-<h1>Mon panier</h1>
+<h1><?= e($title) ?></h1>
 
 <?php if (empty($products)): ?>
     <p>Votre panier est vide.</p>
@@ -27,7 +21,7 @@ ob_start(); // Commence à capturer le HTML
             $total += $lineTotal;
             ?>
             <tr>
-                <td><?= htmlspecialchars($product->getName()) ?></td>
+                <td><?= e($product->getName()) ?></td>
                 <td><?= $product->getPrice() ?> €</td>
                 <td>
                     <form method="POST" action="/panier/modifier">
@@ -53,7 +47,3 @@ ob_start(); // Commence à capturer le HTML
     </table>
 <?php endif; ?>
 <a href="/produits">Catalogue</a>
-
-<?php
-$content = ob_get_clean(); // Récupère le HTML capturé
-require __DIR__ . '/../layout.php'; // Injecte dans le layout
