@@ -1,5 +1,6 @@
 <?php
-namespace App\Entity;
+
+namespace App;
 
 class Router
 {

@@ -22,3 +22,38 @@ function redirect(string $url): void
     header("Location: $url");
     exit;
 }
+
+// Helper d'URL
+function url(string $path): string
+{
+    return $path;
+}
+
+// Lire une valeur en session
+function session(string $key, mixed $default = null): mixed
+{
+    return $_SESSION[$key] ?? $default;
+}
+
+// Écrire une valeur en session
+function setSession(string $key, mixed $value): void
+{
+    $_SESSION[$key] = $value;
+}
+
+// Créer un flash message
+function flash(string $type, string $message): void
+{
+    $_SESSION['flash'] = [
+        'type' => $type,      // 'success', 'error', 'warning'
+        'message' => $message
+    ];
+}
+
+// Récupérer et supprimer le flash message
+function getFlash(): ?array
+{
+    $flash = $_SESSION['flash'] ?? null;
+    unset($_SESSION['flash']); // Supprime après lecture
+    return $flash;
+}

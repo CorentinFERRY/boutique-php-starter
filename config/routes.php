@@ -1,18 +1,18 @@
 <?php
 
-namespace App\config;
+namespace Config;
 
 use App\Controller\CartController;
 use App\Controller\HomeController;
 use App\Controller\ProductController;
-use App\Entity\Router;
+use App\Router;
 
 // config/routes.php
 $router = new Router();
 
 // Pages publiques
 $router->get('/', [HomeController::class, 'index']);
-$router->get('/produits',[ProductController::class, 'index']);
+$router->get('/produits', [ProductController::class, 'index']);
 $router->get('/produit/{id}', [ProductController::class, 'show']);
 
 // Routes pour le panier 

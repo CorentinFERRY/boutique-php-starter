@@ -1,5 +1,10 @@
 <?php
-require_once __DIR__.'/../Entity/User.php';
+namespace App\Repository;
+
+use App\Entity\User;
+use DateTime;
+use InvalidArgumentException;
+use PDO;
 
 class UserRepository
 {

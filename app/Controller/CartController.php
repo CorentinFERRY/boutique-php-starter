@@ -20,7 +20,7 @@ class CartController
     public function index(): void
     {
         $cart = $_SESSION['cart'] ?? [];
-        $_SESSION['itemsCart']?? 0;
+
         $products = [];
         $productsId = array_keys($cart);
         if (!empty($cart)) {
@@ -28,7 +28,7 @@ class CartController
                 $products[] = $this->repository->find($productId);
             }
         }
-        $_SESSION['itemsCart'] = count($products);
+        setSession('itemCart', count($products));
         $title = "Votre Panier";
         view(
             '/cart/index',
@@ -51,8 +51,8 @@ class CartController
                 $_SESSION['cart'][$productId] = 0;
             }
             $_SESSION['cart'][$productId] += $quantity;
+            $this->store();
         }
-
         // Redirection vers le panier après le POST
         redirect('/panier');
     }
@@ -64,6 +64,7 @@ class CartController
 
         if ($productId && isset($_SESSION['cart'][$productId])) {
             unset($_SESSION['cart'][$productId]);
+            $this->destroy();
         }
 
         redirect('/panier');
@@ -80,7 +81,29 @@ class CartController
         }
         if ($productId && $quantity > 0) {
             $_SESSION['cart'][$productId] = $quantity;
+            $this->maj();
         }
+        redirect('/panier');
+    }
+
+    public function store(): void
+    {
+        // Après ajout de produit réussie...
+        flash('success', 'Produit ajouté avec succès !');
+        redirect('/panier');
+    }
+
+    public function maj(): void{
+
+        // Apres modification d'un quantité
+        flash('success', 'Quantitée modifiée avec succès !');
+        redirect('/panier');
+    }
+
+    public function destroy(): void
+    {
+        // Après suppression...
+        flash('warning', 'Produit supprimé.');
         redirect('/panier');
     }
 

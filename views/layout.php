@@ -1,3 +1,7 @@
+<?php
+    $flash =getFlash();
+?>
+
 <!-- views/layout.php -->
 <!DOCTYPE html>
 <html lang="fr">
@@ -19,7 +23,7 @@
                 <a href="/contact" class="header__nav-link">Contact</a>
             </nav>
             <div class="header__actions">
-                <a href="/panier" class="header__cart">🛒<span class="header__cart-badge"><?= $_SESSION['itemsCart'] ?? 0 ?></span></a>
+                <a href="/panier" class="header__cart">🛒<span class="header__cart-badge"><?= session('itemCart',0) ?></span></a>
                 <a href="connexion.html" class="btn btn--primary btn--sm">Connexion</a>
             </div>
             <button class="header__menu-toggle">☰</button>
