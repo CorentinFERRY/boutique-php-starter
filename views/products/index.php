@@ -1,5 +1,5 @@
 <?php
-/** @var array $products */
+/** @var App\Entity\Product[] $products */
 ?>
 
 <h1>Catalogue</h1>

@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Repository\ProductRepository;
 use Config\MyDatabase;
 
-class ProductController
+class ProductController extends Controller
 {
     private ProductRepository $repository;
 
@@ -18,7 +18,7 @@ class ProductController
     public function index(): void
     {
         $products = $this->repository->findAll();
-        view('products/index', [
+        $this->view('products/index', [
             'title' => 'Catalogue',
             'products' => $products,
         ]);
@@ -27,20 +27,20 @@ class ProductController
     public function show(string $id): void
     {
         if ($id === '' || $id === '0') {
-            redirect('/produits');
+            $this->redirect('/produits');
 
             return;
         }
         $product = $this->repository->find((int) $id);
         if (!$product instanceof \App\Entity\Product) {
             http_response_code(404);
-            view('error/404', [
+            $this->view('error/404', [
                 'title' => 'Not found',
             ]);
 
             return;
         }
-        view('products/show', [
+        $this->view('products/show', [
             'title' => e($product->getName()),
             'product' => $product,
         ]);

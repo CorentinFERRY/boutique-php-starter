@@ -1,7 +1,7 @@
 <?php
 /** @var string $title */
 /** @var array $cart */
-/** @var array $products */
+/** @var App\Entity\Product[] $products */
 ?>
 
 <h1><?= e($title) ?></h1>

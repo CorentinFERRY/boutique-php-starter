@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Repository\ProductRepository;
 use Config\MyDatabase;
 
-class CartController
+class CartController extends Controller
 {
     private ProductRepository $repository;
 
@@ -29,7 +29,7 @@ class CartController
         }
         setSession('itemCart', count($products));
         $title = 'Votre Panier';
-        view(
+        $this->view(
             '/cart/index',
             [
                 'title' => $title,
@@ -53,7 +53,7 @@ class CartController
             $this->store();
         }
         // Redirection vers le panier après le POST
-        redirect('/panier');
+        $this->redirect('/panier');
     }
 
     // POST /panier/supprimer
@@ -66,7 +66,7 @@ class CartController
             $this->destroy();
         }
 
-        redirect('/panier');
+        $this->redirect('/panier');
     }
 
     // POST /panier/modifier
@@ -82,14 +82,14 @@ class CartController
             $_SESSION['cart'][$productId] = $quantity;
             $this->maj();
         }
-        redirect('/panier');
+        $this->redirect('/panier');
     }
 
     public function store(): void
     {
         // Après ajout de produit réussie...
         flash('success', 'Produit ajouté avec succès !');
-        redirect('/panier');
+        $this->redirect('/panier');
     }
 
     public function maj(): void
@@ -97,14 +97,14 @@ class CartController
 
         // Apres modification d'un quantité
         flash('success', 'Quantitée modifiée avec succès !');
-        redirect('/panier');
+        $this->redirect('/panier');
     }
 
     public function destroy(): void
     {
         // Après suppression...
         flash('warning', 'Produit supprimé.');
-        redirect('/panier');
+        $this->redirect('/panier');
     }
 
     // Fonction de redirection

@@ -1,8 +1,5 @@
 <?php
-$flash = getFlash();
-
 /** @var string $content */
-
 ?>
 
 <!-- views/layout.php -->
