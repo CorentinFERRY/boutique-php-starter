@@ -135,8 +135,9 @@ $sort = $_GET['sort'] ?? 'name_asc';
                                     <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>" class="product-card__image">
                                     <div class="product-card__badges">
                                         <?= displayBadge($product) ?>
-                                    </div>
-                                </div>
+
+                                </div>                                    
+                            </div>
                                 <div class="product-card__content">
                                     <span class="product-card__category"><?= $product['category'] ?></span>
                                     <a href="produit.html?id=1" class="product-card__title"><?= $product['name'] ?></a>
