@@ -74,7 +74,7 @@ function old(string $key, string $default = ''): string
 
 /**
  * @param array<string, mixed> $data
- */ 
+ */
 function setOld(array $data): void
 {
     $_SESSION['old'] = $data;

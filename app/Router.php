@@ -4,7 +4,6 @@ namespace App;
 
 class Router
 {
-
     /**
      * @var array<string, array<string, array{0: class-string, 1: string}>>
      */
@@ -40,7 +39,7 @@ class Router
         foreach ($this->routes[$method] ?? [] as $regex => $handler) {
             if (preg_match((string)$regex, (string)$path, $matches)) {
                 [$controller, $action] = $handler;
-                $params = array_filter($matches, fn($key) => ! is_int($key), ARRAY_FILTER_USE_KEY);
+                $params = array_filter($matches, fn ($key) => ! is_int($key), ARRAY_FILTER_USE_KEY);
                 $controllerInstance = new $controller();
                 $controllerInstance->$action(...$params);
                 return;

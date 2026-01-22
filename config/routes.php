@@ -3,9 +3,9 @@
 namespace Config;
 
 use App\Controller\CartController;
+use App\Controller\ContactController;
 use App\Controller\HomeController;
 use App\Controller\ProductController;
-use App\Controller\ContactController;
 use App\Router;
 
 // config/routes.php
