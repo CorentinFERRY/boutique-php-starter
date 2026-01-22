@@ -10,7 +10,8 @@ class Address
         private string $city,
         private int $postalCode,
         private string $country
-    ) {}
+    ) {
+    }
 
     public function getAddress(): string
     {

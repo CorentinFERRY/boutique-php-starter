@@ -51,7 +51,7 @@ echo '<br><br>';
 
 echo '---  EXERCICE 3  ---<br><br>';
 
-$cart = new Cart;
+$cart = new Cart();
 
 $cart->addProduct($products[0], 3);
 $cart->addProduct($products[1], 13);
@@ -97,7 +97,7 @@ $cart->clear(); // supprime le panier
 echo '---  EXERCICE 5  ---<br><br>';
 
 $me = new User('Corentin', 'c.ferry78@laposte.net');
-$myCart = new Cart;
+$myCart = new Cart();
 
 $testOrder = new Order(1, $me, $myCart, 'standby');
 

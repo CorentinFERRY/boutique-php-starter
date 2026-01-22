@@ -10,7 +10,8 @@ class CategoryRepository
 {
     public function __construct(
         private PDO $pdo
-    ) {}
+    ) {
+    }
 
     public function find(int $id): ?Category
     {

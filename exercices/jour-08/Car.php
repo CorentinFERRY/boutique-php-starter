@@ -6,7 +6,8 @@ class Car
         public string $brand,
         public string $model,
         public int $year = 2026
-    ) {}
+    ) {
+    }
 
     public function getAge(): int
     {

@@ -11,7 +11,8 @@ class ProductRepository
 {
     public function __construct(
         private PDO $pdo
-    ) {}
+    ) {
+    }
 
     // READ - 1 produit
     public function find(int $id): ?Product

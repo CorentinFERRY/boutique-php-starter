@@ -29,7 +29,7 @@ class Router
             if (preg_match($regex, $path, $matches)) {
                 [$controller, $action] = $handler;
                 $params = array_filter($matches, fn ($key) => ! is_int($key), ARRAY_FILTER_USE_KEY);
-                $controllerInstance = new $controller;
+                $controllerInstance = new $controller();
                 // Passage des paramètres à l'action
                 $controllerInstance->$action(...$params);
 

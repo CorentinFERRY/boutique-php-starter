@@ -6,7 +6,8 @@ class Category
         public int $id,
         public string $nom,
         public string $description
-    ) {}
+    ) {
+    }
 
     public function getSlug(): string
     {

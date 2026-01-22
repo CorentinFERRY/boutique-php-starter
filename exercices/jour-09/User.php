@@ -10,7 +10,8 @@ class User
         private string $name,
         private string $mail,
         private DateTimeImmutable $dateInscription = new DateTimeImmutable('now'),
-    ) {}
+    ) {
+    }
 
     public function getName(): string
     {

@@ -8,7 +8,7 @@ use App\Controller\ProductController;
 use App\Router;
 
 // config/routes.php
-$router = new Router;
+$router = new Router();
 
 // Pages publiques
 $router->get('/', [HomeController::class, 'index']);
