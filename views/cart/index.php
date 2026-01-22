@@ -1,3 +1,9 @@
+<?php
+/** @var string $title */
+/** @var array $cart */
+/** @var array $products */
+?>
+
 <h1><?= e($title) ?></h1>
 
 <?php if (empty($products)) { ?>

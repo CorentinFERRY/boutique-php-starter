@@ -11,8 +11,7 @@ class UserRepository
 {
     public function __construct(
         private PDO $pdo
-    ) {
-    }
+    ) {}
 
     public function find(int $id): ?User
     {
@@ -23,6 +22,9 @@ class UserRepository
         return $data ? $this->hydrate($data) : null;
     }
 
+    /**
+     * @return User[]
+     */
     public function findAll(): array
     {
         $stmt = $this->pdo->prepare('SELECT * FROM users');
@@ -50,28 +52,22 @@ class UserRepository
 
     public function update(User $user): void
     {
-        if ($this->find($user->getId() !== null) instanceof \App\Entity\User) {
-            $stmt = $this->pdo->prepare('UPDATE users SET name = ?, email = ?, password = ?, role = ? WHERE id = ?');
-            $stmt->execute([
-                $user->getName(),
-                $user->getMail(),
-                password_hash($user->getPassword(), PASSWORD_DEFAULT),
-                $user->getRole(),
-                $user->getId(),
-            ]);
-        } else {
-            throw new InvalidArgumentException("User dosen't exist !");
-        }
+        $this->find($user->getId());
+        $stmt = $this->pdo->prepare('UPDATE users SET name = ?, email = ?, password = ?, role = ? WHERE id = ?');
+        $stmt->execute([
+            $user->getName(),
+            $user->getMail(),
+            password_hash($user->getPassword(), PASSWORD_DEFAULT),
+            $user->getRole(),
+            $user->getId(),
+        ]);
     }
 
     public function delete(User $user): void
     {
-        if ($this->find($user->getId() !== null) instanceof \App\Entity\User) {
-            $stmt = $this->pdo->prepare('DELETE FROM users WHERE id = ?');
-            $stmt->execute([$user->getId()]);
-        } else {
-            throw new InvalidArgumentException("User dosen't exist !");
-        }
+        $this->find($user->getId());
+        $stmt = $this->pdo->prepare('DELETE FROM users WHERE id = ?');
+        $stmt->execute([$user->getId()]);
     }
 
     public function findByEmail(string $email): ?User
@@ -83,6 +79,16 @@ class UserRepository
         return $data ? $this->hydrate($data) : null;
     }
 
+    /**
+     * @param array{
+     *     id: int,
+     *     name: string,
+     *     email: string,
+     *     password: string,
+     *     role: string,
+     *     created_at: string
+     * } $data
+     */
     private function hydrate(array $data): User
     {
         $date = new DateTime($data['created_at']);

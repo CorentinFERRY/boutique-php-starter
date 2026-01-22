@@ -66,7 +66,7 @@ class Product
         $this->price = $price;
     }
 
-    public function setStock(float $stock): void
+    public function setStock(int $stock): void
     {
         if ($stock < 0) {
             throw new \InvalidArgumentException('Stock négatif interdit');

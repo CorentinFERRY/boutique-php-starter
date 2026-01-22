@@ -20,9 +20,13 @@
         ]
     },
     "scripts": {
-        "lint": "pint --test",
-        "fix": "pint",
-        "analyse": "phpstan analyse --level=5",
-        "quality": ["@lint", "@analyse"]
+        "lint": "vendor/bin/pint --test",
+        "fix": "vendor/bin/pint",
+        "analyse": "vendor/bin/phpstan analyse",
+        "refactor": "vendor/bin/rector --dry-run",
+        "quality": [
+            "@lint",
+            "@analyse"
+        ]
     }
 }

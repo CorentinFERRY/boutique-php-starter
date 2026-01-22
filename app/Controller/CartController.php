@@ -24,7 +24,7 @@ class CartController
         $productsId = array_keys($cart);
         if (! empty($cart)) {
             foreach ($productsId as $productId) {
-                $products[] = $this->repository->find($productId);
+                $products[] = $this->repository->find((int)$productId);
             }
         }
         setSession('itemCart', count($products));

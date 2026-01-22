@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Category;
+use App\Entity\Product;
 use InvalidArgumentException;
 use PDO;
 
@@ -21,6 +22,10 @@ class CategoryRepository
 
         return $data ? $this->hydrate($data) : null;
     }
+
+    /**
+     * @return Category[]
+     */
 
     public function findAll(): array
     {
@@ -66,10 +71,21 @@ class CategoryRepository
         }
     }
 
+    /**
+     * @param array{
+     *     id: int,
+     *     name: string,
+     *     slug: string
+     * } $data
+     */
     private function hydrate(array $data): Category
     {
         return new Category($data['id'], $data['name']);
     }
+
+    /**
+     * @return array<string,Product[]>
+     */
 
     public function findWithProducts(): array
     {

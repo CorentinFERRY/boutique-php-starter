@@ -1,4 +1,5 @@
 <?php
+
 // rector.php
 
 use Rector\Config\RectorConfig;

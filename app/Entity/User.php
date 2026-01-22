@@ -50,6 +50,9 @@ class User
         return $this->dateInscription;
     }
 
+    /**
+     * @return Address[]
+     */
     public function getAddresses(): array
     {
         return $this->address;

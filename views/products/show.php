@@ -1,3 +1,7 @@
+<?php
+/** @var App\Entity\Product $product */
+?>
+
 <!-- views/products/show.php -->
 
 <h1><?= e($product->getName()) ?></h1>

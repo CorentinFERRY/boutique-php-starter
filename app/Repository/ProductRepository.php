@@ -24,6 +24,9 @@ class ProductRepository
         return $data ? $this->hydrate($data) : null;
     }
 
+    /**
+     * @return Product[]
+     */
     // READ - Tous les produits
     public function findAll(): array
     {
@@ -81,11 +84,22 @@ class ProductRepository
         }
     }
 
+
+    /**
+     * @param array{
+     *     id: int,
+     *     name: string,
+     *     description: string,
+     *     price: float,
+     *     stock: int,
+     *     category : string,
+     *     category_id: int
+     * } $data
+     */
     // Permet après la récupération d'avoir un objet Produit
     private function hydrate(array $data): Product
     {
         $category = new Category($data['category_id'], $data['category']);
-
         return new Product(
             id: (int) $data['id'],
             name: $data['name'],
@@ -96,6 +110,9 @@ class ProductRepository
         );
     }
 
+    /**
+     * @return Product[]
+     */
     public function findByCategory(int $idCategroy): array
     {
         $stmt = $this->pdo->prepare('SELECT * FROM products WHERE category_id = ?');
@@ -104,6 +121,9 @@ class ProductRepository
         return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
+    /**
+     * @return Product[]
+     */
     public function findInStock(): array
     {
         $stmt = $this->pdo->prepare('SELECT * FROM products WHERE stock > 0');
@@ -112,6 +132,9 @@ class ProductRepository
         return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
+    /**
+     * @return Product[]
+     */
     public function findByPriceRange(float $min, float $max): array
     {
         $stmt = $this->pdo->prepare('SELECT * FROM products WHERE price BETWEEN ? AND ?');
@@ -120,10 +143,13 @@ class ProductRepository
         return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
+    /**
+     * @return Product[]
+     */
     public function search(string $term): array
     {
         $stmt = $this->pdo->prepare('SELECT * FROM products WHERE name LIKE ?');
-        $stmt->execute(['%'.$term.'%']);
+        $stmt->execute(['%' . $term . '%']);
 
         return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
     }

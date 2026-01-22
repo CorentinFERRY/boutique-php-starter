@@ -1,3 +1,7 @@
+<?php
+/** @var array $products */
+?>
+
 <h1>Catalogue</h1>
 
 <?php foreach ($products as $product) { ?>

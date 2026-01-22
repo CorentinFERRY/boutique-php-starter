@@ -1,3 +1,7 @@
+<?php
+/** @var string $title */
+?>
+
 <!-- views/home/index.php -->
 
 <h1><?= e($title) ?></h1>

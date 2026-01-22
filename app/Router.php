@@ -10,15 +10,14 @@ class Router
     {
         // Remplace {id} par (?P<id>[^/]+)
         $regex = preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $path);
-        $regex = '#^'.$regex.'$#';
+        $regex = '#^' . $regex . '$#';
         $this->routes['GET'][$regex] = $action;
     }
-
     public function post(string $path, array $action): void
     {
         // Remplace {id} par (?P<id>[^/]+)
         $regex = preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $path);
-        $regex = '#^'.$regex.'$#';
+        $regex = '#^' . $regex . '$#';
         $this->routes['POST'][$regex] = $action;
     }
 
