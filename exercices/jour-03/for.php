@@ -1,21 +1,21 @@
 <?php
 
-for ($i = 1 ; $i <= 10 ; $i++){
+for ($i = 1; $i <= 10; $i++) {
     echo $i;
-    echo "<br>";
+    echo '<br>';
 }
 
-for ($i = 2 ; $i <= 20 ; $i+=2){
+for ($i = 2; $i <= 20; $i += 2) {
     echo $i;
-    echo "<br>";
+    echo '<br>';
 }
 
-for ($i = 10 ; $i >= 0 ; $i--){
+for ($i = 10; $i >= 0; $i--) {
     echo $i;
-    echo "<br>";
+    echo '<br>';
 }
 
-for ($i = 1 ; $i <= 10 ; $i++){
-    echo $i*7;
-    echo "<br>";
+for ($i = 1; $i <= 10; $i++) {
+    echo $i * 7;
+    echo '<br>';
 }

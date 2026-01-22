@@ -1,9 +1,9 @@
 <?php
-require_once "ProductRepository.php";
-require_once "CategoryRepository.php";
-require_once "UserRepository.php";
-require_once "Database.php";
 
+require_once 'ProductRepository.php';
+require_once 'CategoryRepository.php';
+require_once 'UserRepository.php';
+require_once 'Database.php';
 
 // Avant la Class Database.php
 /*
@@ -12,48 +12,44 @@ $pdo = new PDO(
     "dev",
     "dev",
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION] // Gestion d'erreurs
-); 
+);
 */
 
-//Après la Class Database.pph
+// Après la Class Database.pph
 
 $pdo = Database::getInstance();
 
-// Exercice 1 
+// Exercice 1
 
-echo "---  EXERCICE 1  ---<br><br>";
-
-
+echo '---  EXERCICE 1  ---<br><br>';
 
 $myRepo = new ProductRepository($pdo);
 $myRepoCat = new CategoryRepository($pdo);
 
-
 $myProduct = $myRepo->find(2);
-echo $myProduct->getName() . "<br>";
-echo $myProduct->getPrice() . "<br>";
-echo $myProduct->getStock() . "<br>";
-echo $myProduct->getCategoryId() . "<br>";
-echo "<br>";
+echo $myProduct->getName().'<br>';
+echo $myProduct->getPrice().'<br>';
+echo $myProduct->getStock().'<br>';
+echo $myProduct->getCategoryId().'<br>';
+echo '<br>';
 
 $myProducts = $myRepo->findAll();
 
 foreach ($myProducts as $product) {
-    echo $product->getName() . "<br>";
-    echo $product->getPrice() . "<br>";
-    echo $product->getStock() . "<br>";
-    echo $product->getCategory()->getName() . "<br>";
-    echo "<br>";
+    echo $product->getName().'<br>';
+    echo $product->getPrice().'<br>';
+    echo $product->getStock().'<br>';
+    echo $product->getCategory()->getName().'<br>';
+    echo '<br>';
 }
 
+echo '<br>';
+echo '<br>';
 
-echo "<br>";
-echo "<br>";
+echo '---  EXERCICE 2  ---<br><br>';
 
-echo "---  EXERCICE 2  ---<br><br>";
-
-$catTest = new Category(4,"Testeur");
-$testProduct = new Product(6, "CeProduitDeTEST", "c'estuntest", 25, 2, $catTest);
+$catTest = new Category(4, 'Testeur');
+$testProduct = new Product(6, 'CeProduitDeTEST', "c'estuntest", 25, 2, $catTest);
 
 // Test des méthodes save() update() and delete() de ProductRepository
 $myRepoCat->save($catTest);
@@ -62,125 +58,121 @@ $myRepo->save($testProduct);
 $myProducts = $myRepo->findAll();
 echo "Les produits dans ma BDD après l'ajout <br>";
 foreach ($myProducts as $product) {
-    echo $product->getName() . "<br>";
-    echo $product->getPrice() . "<br>";
-    echo $product->getStock() . "<br>";
-    echo $product->getCategory()->getName() . "<br>";
-    echo "<br>";
+    echo $product->getName().'<br>';
+    echo $product->getPrice().'<br>';
+    echo $product->getStock().'<br>';
+    echo $product->getCategory()->getName().'<br>';
+    echo '<br>';
 }
 
-$testProduct = new Product(6, "Ce", "c'estuntest", 25, 2, $catTest);
+$testProduct = new Product(6, 'Ce', "c'estuntest", 25, 2, $catTest);
 $myRepo->update($testProduct);
 
 $myProducts = $myRepo->findAll();
-echo "Les produits dans ma BDD après la modification <br>";
+echo 'Les produits dans ma BDD après la modification <br>';
 foreach ($myProducts as $product) {
-    echo $product->getName() . "<br>";
-    echo $product->getPrice() . "<br>";
-    echo $product->getStock() . "<br>";
-    echo $product->getCategory()->getName() . "<br>";
-    echo "<br>";
+    echo $product->getName().'<br>';
+    echo $product->getPrice().'<br>';
+    echo $product->getStock().'<br>';
+    echo $product->getCategory()->getName().'<br>';
+    echo '<br>';
 }
-
 
 $myRepo->delete($testProduct);
 $myRepoCat->delete($catTest);
 
-echo "Les produits dans ma BDD après la suppression <br>";
+echo 'Les produits dans ma BDD après la suppression <br>';
 $myProducts = $myRepo->findAll();
 foreach ($myProducts as $product) {
-    echo $product->getName() . "<br>";
-    echo $product->getPrice() . "<br>";
-    echo $product->getStock() . "<br>";
-    echo $product->getCategory()->getName() . "<br>";
-    echo "<br>";
+    echo $product->getName().'<br>';
+    echo $product->getPrice().'<br>';
+    echo $product->getStock().'<br>';
+    echo $product->getCategory()->getName().'<br>';
+    echo '<br>';
 }
 
-// Leve une execption ID de produit deja utilisé ! 
-//$testProduct = new Product(5, "CeProduitDeTEST", "c'estuntest", 25, 2, $catTest);
-//$myRepo->save($testProduct);
+// Leve une execption ID de produit deja utilisé !
+// $testProduct = new Product(5, "CeProduitDeTEST", "c'estuntest", 25, 2, $catTest);
+// $myRepo->save($testProduct);
 
-echo "<br>";
-echo "<br>";
+echo '<br>';
+echo '<br>';
 
-echo "---  EXERCICE 3  ---<br><br>";
+echo '---  EXERCICE 3  ---<br><br>';
 
-echo "Les produits de la categorie Accessoires dans ma BDD <br>";
+echo 'Les produits de la categorie Accessoires dans ma BDD <br>';
 $myProducts = $myRepo->findByCategory(2);
 foreach ($myProducts as $product) {
-    echo $product->getName() . "<br>";
-    echo $product->getPrice() . "<br>";
-    echo $product->getStock() . "<br>";
-    echo $product->getCategory()->getName() . "<br>";
-    echo "<br>";
+    echo $product->getName().'<br>';
+    echo $product->getPrice().'<br>';
+    echo $product->getStock().'<br>';
+    echo $product->getCategory()->getName().'<br>';
+    echo '<br>';
 }
 
-echo "Les produits en stock dans ma BDD <br>";
+echo 'Les produits en stock dans ma BDD <br>';
 $myProducts = $myRepo->findInStock();
 foreach ($myProducts as $product) {
-    echo $product->getName() . "<br>";
-    echo $product->getPrice() . "<br>";
-    echo $product->getStock() . "<br>";
-    echo $product->getCategory()->getName() . "<br>";
-    echo "<br>";
+    echo $product->getName().'<br>';
+    echo $product->getPrice().'<br>';
+    echo $product->getStock().'<br>';
+    echo $product->getCategory()->getName().'<br>';
+    echo '<br>';
 }
 
-echo "Les produits compris entre 10 et 40€ dans BDD <br>";
-$myProducts = $myRepo->findByPriceRange(10,40);
+echo 'Les produits compris entre 10 et 40€ dans BDD <br>';
+$myProducts = $myRepo->findByPriceRange(10, 40);
 foreach ($myProducts as $product) {
-    echo $product->getName() . "<br>";
-    echo $product->getPrice() . "<br>";
-    echo $product->getStock() . "<br>";
-    echo $product->getCategory()->getName() . "<br>";
-    echo "<br>";
+    echo $product->getName().'<br>';
+    echo $product->getPrice().'<br>';
+    echo $product->getStock().'<br>';
+    echo $product->getCategory()->getName().'<br>';
+    echo '<br>';
 }
 
-
-echo "Les produits compris dont le nom contient \"as\" dans BDD <br>";
-$myProducts = $myRepo->search("as");
+echo 'Les produits compris dont le nom contient "as" dans BDD <br>';
+$myProducts = $myRepo->search('as');
 foreach ($myProducts as $product) {
-    echo $product->getName() . "<br>";
-    echo $product->getPrice() . "<br>";
-    echo $product->getStock() . "<br>";
-    echo $product->getCategory()->getName() . "<br>";
-    echo "<br>";
+    echo $product->getName().'<br>';
+    echo $product->getPrice().'<br>';
+    echo $product->getStock().'<br>';
+    echo $product->getCategory()->getName().'<br>';
+    echo '<br>';
 }
 
+echo '<br>';
+echo '<br>';
 
-echo "<br>";
-echo "<br>";
-
-echo "---  EXERCICE 4  ---<br><br>";
+echo '---  EXERCICE 4  ---<br><br>';
 
 $test = $myRepoCat->findWithProducts();
 print_r($test);
 
+echo '<br>';
+echo '<br>';
 
-echo "<br>";
-echo "<br>";
-
-echo "---  EXERCICE 5  ---<br><br>";
+echo '---  EXERCICE 5  ---<br><br>';
 
 $myRepoUser = new UserRepository($pdo);
-$testUser = new User(2,"Corentin","c.ferry78@laposte.net","testastos",'admin');
+$testUser = new User(2, 'Corentin', 'c.ferry78@laposte.net', 'testastos', 'admin');
 
 $myRepoUser->save($testUser);
 
 $myUser = $myRepoUser->find(1);
-echo $myUser->getName() . "<br>";
-echo $myUser->getMail() . "<br>";
-echo $myUser->getPassword() . "<br>";
-echo $myUser->getRole() . "<br>";
-echo "<br>";
+echo $myUser->getName().'<br>';
+echo $myUser->getMail().'<br>';
+echo $myUser->getPassword().'<br>';
+echo $myUser->getRole().'<br>';
+echo '<br>';
 
 $myUser = $myRepoUser->findAll();
 
-foreach($myUser as $user){
-    echo $user->getName() . "<br>";
-    echo $user->getMail() . "<br>";
-    echo $user->getPassword() . "<br>";
-    echo $user->getRole() . "<br>";
-    echo "<br>";
+foreach ($myUser as $user) {
+    echo $user->getName().'<br>';
+    echo $user->getMail().'<br>';
+    echo $user->getPassword().'<br>';
+    echo $user->getRole().'<br>';
+    echo '<br>';
 }
 
 $myRepoUser->delete($testUser);

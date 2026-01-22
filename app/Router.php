@@ -10,7 +10,7 @@ class Router
     {
         // Remplace {id} par (?P<id>[^/]+)
         $regex = preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $path);
-        $regex = '#^' . $regex . '$#';
+        $regex = '#^'.$regex.'$#';
         $this->routes['GET'][$regex] = $action;
     }
 
@@ -18,7 +18,7 @@ class Router
     {
         // Remplace {id} par (?P<id>[^/]+)
         $regex = preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $path);
-        $regex = '#^' . $regex . '$#';
+        $regex = '#^'.$regex.'$#';
         $this->routes['POST'][$regex] = $action;
     }
 
@@ -28,14 +28,15 @@ class Router
         foreach ($this->routes[$method] ?? [] as $regex => $handler) {
             if (preg_match($regex, $path, $matches)) {
                 [$controller, $action] = $handler;
-                $params = array_filter($matches, fn($key) => !is_int($key), ARRAY_FILTER_USE_KEY);
-                $controllerInstance = new $controller();
+                $params = array_filter($matches, fn ($key) => ! is_int($key), ARRAY_FILTER_USE_KEY);
+                $controllerInstance = new $controller;
                 // Passage des paramètres à l'action
                 $controllerInstance->$action(...$params);
+
                 return;
             }
         }
         http_response_code(404);
-        view('error/404', ['title' => "Not found!"]);
+        view('error/404', ['title' => 'Not found!']);
     }
 }

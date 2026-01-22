@@ -1,8 +1,8 @@
 <h1><?= e($title) ?></h1>
 
-<?php if (empty($products)): ?>
+<?php if (empty($products)) { ?>
     <p>Votre panier est vide.</p>
-<?php else: ?>
+<?php } else { ?>
     <table border="1" cellpadding="10">
         <tr>
             <th>Produit</th>
@@ -14,7 +14,7 @@
 
         <?php $total = 0; ?>
 
-        <?php foreach ($products as $product): ?>
+        <?php foreach ($products as $product) { ?>
             <?php
             $productId = $product->getId();
             $lineTotal = $product->getPrice() * $cart["$productId"];
@@ -38,12 +38,12 @@
                     </form>
                 </td>
             </tr>
-        <?php endforeach; ?>
+        <?php } ?>
 
         <tr>
             <td colspan="3"><strong>Total</strong></td>
             <td colspan="2"><strong><?= $total ?> €</strong></td>
         </tr>
     </table>
-<?php endif; ?>
+<?php } ?>
 <a href="/produits">Catalogue</a>

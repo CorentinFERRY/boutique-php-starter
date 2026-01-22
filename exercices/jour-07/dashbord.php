@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["user"])) {
-    header("Location: login.php");
+if (! isset($_SESSION['user'])) {
+    header('Location: login.php');
     exit;
 }
 
@@ -17,7 +17,7 @@ if (!isset($_SESSION["user"])) {
 </head>
 
 <body>
-    <p><?= "Bonjour " . $_SESSION['user'] ?></p>
+    <p><?= 'Bonjour '.$_SESSION['user'] ?></p>
     <a href="logout.php"> Log out </a>
 </body>
 

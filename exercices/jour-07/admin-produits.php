@@ -3,70 +3,70 @@
 $search = htmlspecialchars($_GET['recherche'] ?? null);
 try {
     $pdo = new PDO(
-        "mysql:host=localhost;dbname=boutique;charset=utf8mb4",
-        "dev",
-        "dev",
+        'mysql:host=localhost;dbname=boutique;charset=utf8mb4',
+        'dev',
+        'dev',
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION] // Gestion d'erreurs
     );
     // Permet de récupérer les erreurs et de les afficher si il y en a
 } catch (PDOException $e) {
-    echo "❌ Erreur : " . $e->getMessage();
-};
+    echo '❌ Erreur : '.$e->getMessage();
+}
 
-$stmt = $pdo->prepare("SELECT * FROM products WHERE name LIKE ?");
-$stmt->execute(['%' . $search . '%']);
+$stmt = $pdo->prepare('SELECT * FROM products WHERE name LIKE ?');
+$stmt->execute(['%'.$search.'%']);
 
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // CREATE
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]) && $_POST["action"] === "add") {
-    $stmt = $pdo->prepare("INSERT INTO products (name ,description ,price, stock, category) VALUES (?, ?, ?, ?, ?)");
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
+    $stmt = $pdo->prepare('INSERT INTO products (name ,description ,price, stock, category) VALUES (?, ?, ?, ?, ?)');
     $stmt->execute([
-        $_POST["name"],
-        $_POST["description"],
-        $_POST["price"],
-        $_POST["stock"],
-        $_POST["category"]
+        $_POST['name'],
+        $_POST['description'],
+        $_POST['price'],
+        $_POST['stock'],
+        $_POST['category'],
     ]);
-    header("Location: admin-produits.php");
+    header('Location: admin-produits.php');
     exit;
 }
 
 // DELETE
-if (isset($_GET["delete"])) {
-    $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
-    $stmt->execute([$_GET["delete"]]);
-    header("Location: admin-produits.php");
+if (isset($_GET['delete'])) {
+    $stmt = $pdo->prepare('DELETE FROM products WHERE id = ?');
+    $stmt->execute([$_GET['delete']]);
+    header('Location: admin-produits.php');
     exit;
 }
 
-//UPDATE 
-//Récupération du produit
+// UPDATE
+// Récupération du produit
 $productToEdit = null;
 
 if (isset($_GET['edit'])) {
-    $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+    $stmt = $pdo->prepare('SELECT * FROM products WHERE id = ?');
     $stmt->execute([$_GET['edit']]);
     $productToEdit = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["action"] ?? '') === "update") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'update') {
     $stmt = $pdo->prepare(
-        "UPDATE products 
+        'UPDATE products 
          SET name = ?, description = ?, price = ?, stock = ?, category = ?
-         WHERE id = ?"
+         WHERE id = ?'
     );
 
     $stmt->execute([
-        $_POST["name"],
-        $_POST["description"],
-        $_POST["price"],
-        $_POST["stock"],
-        $_POST["category"],
-        $_POST["id"]
+        $_POST['name'],
+        $_POST['description'],
+        $_POST['price'],
+        $_POST['stock'],
+        $_POST['category'],
+        $_POST['id'],
     ]);
 
-    header("Location: admin-produits.php");
+    header('Location: admin-produits.php');
     exit;
 }
 
@@ -87,22 +87,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["action"] ?? '') === "updat
         <input type="text" id="recherche" name="recherche" value="<?= $search ?>">
         <button type="submit">Rechercher</button>
     </form>
-    <?php foreach ($products as $product) : ?>
-        <h3><?= htmlspecialchars($product["name"]) ?></h3>
-        <p><?= htmlspecialchars($product["description"]) ?></p>
-        <p><?= htmlspecialchars($product["price"]) ?></p>
-        <p><?= htmlspecialchars($product["stock"]) ?></p>
+    <?php foreach ($products as $product) { ?>
+        <h3><?= htmlspecialchars($product['name']) ?></h3>
+        <p><?= htmlspecialchars($product['description']) ?></p>
+        <p><?= htmlspecialchars($product['price']) ?></p>
+        <p><?= htmlspecialchars($product['stock']) ?></p>
         <a href="?edit=<?= $product['id'] ?>"> Modifier</a>
         <br>
         <a href="?delete=<?= $product['id'] ?>">Supprimer </a>
-    <?php endforeach; ?>
+    <?php } ?>
     <br><br>
     <form method="POST">
         <input type="hidden" name="action" value="<?= $productToEdit ? 'update' : 'add' ?>">
 
-        <?php if ($productToEdit): ?>
+        <?php if ($productToEdit) { ?>
             <input type="hidden" name="id" value="<?= $productToEdit['id'] ?>">
-        <?php endif; ?>
+        <?php } ?>
 
         <div>
             <label>
@@ -142,13 +142,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["action"] ?? '') === "updat
                 <select name="category" required>
                     <?php
                     $categories = ['Accessoires', 'Chaussures', 'Vêtements'];
-                    foreach ($categories as $cat):
-                    ?>
+foreach ($categories as $cat) {
+    ?>
                         <option value="<?= $cat ?>"
                             <?= ($productToEdit && $productToEdit['category'] === $cat) ? 'selected' : '' ?>>
                             <?= $cat ?>
                         </option>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </select>
             </label>
         </div>

@@ -1,21 +1,22 @@
 <?php
-    $name= htmlspecialchars($_POST['name'] ?? '');
-    $mail = htmlspecialchars($_POST['email']?? '');
-    $message = htmlspecialchars($_POST['message' ?? '']);
-    if(!empty($name) && !empty($mail) && !empty($message)) {
-        echo $name."<br>";
-        if (!filter_var($mail,FILTER_VALIDATE_EMAIL)) { 
-            echo "Email invalide <br>";
-        }
-        else
-            echo $mail."<br>";
-        if(strlen($message) >= 10)
-            echo $message."<br>";
-        else
-            echo "La taille du message est incorrecte ! <br>";
+$name = htmlspecialchars($_POST['name'] ?? '');
+$mail = htmlspecialchars($_POST['email'] ?? '');
+$message = htmlspecialchars($_POST['message' ?? '']);
+if (! empty($name) && ! empty($mail) && ! empty($message)) {
+    echo $name.'<br>';
+    if (! filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+        echo 'Email invalide <br>';
+    } else {
+        echo $mail.'<br>';
     }
-    else    
-        echo "Tous les champs sont requis ! <br>";
+    if (strlen($message) >= 10) {
+        echo $message.'<br>';
+    } else {
+        echo 'La taille du message est incorrecte ! <br>';
+    }
+} else {
+    echo 'Tous les champs sont requis ! <br>';
+}
 ?>
 
 <!DOCTYPE html>

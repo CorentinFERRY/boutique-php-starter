@@ -1,5 +1,5 @@
 <?php
-    $flash =getFlash();
+$flash = getFlash();
 ?>
 
 <!-- views/layout.php -->
@@ -23,18 +23,18 @@
                 <a href="/contact" class="header__nav-link">Contact</a>
             </nav>
             <div class="header__actions">
-                <a href="/panier" class="header__cart">🛒<span class="header__cart-badge"><?= session('itemCart',0) ?></span></a>
+                <a href="/panier" class="header__cart">🛒<span class="header__cart-badge"><?= session('itemCart', 0) ?></span></a>
                 <a href="connexion.html" class="btn btn--primary btn--sm">Connexion</a>
             </div>
             <button class="header__menu-toggle">☰</button>
         </div>
     </header>
     <main>
-        <?php if (isset($flash)): ?>
+        <?php if (isset($flash)) { ?>
             <div class="alert alert-<?= $flash['type'] ?>">
                 <?= $flash['message'] ?>
             </div>
-        <?php endif; ?>
+        <?php } ?>
 
         <?= $content ?>
     </main>

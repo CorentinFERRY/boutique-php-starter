@@ -1,5 +1,5 @@
 <?php
-require_once "helpers.php"; // Permet d'inclure le fichier php avec nos fonctions et les utiliser dans notre page
+require_once 'helpers.php'; // Permet d'inclure le fichier php avec nos fonctions et les utiliser dans notre page
 
 ?>
 
@@ -11,10 +11,10 @@ require_once "helpers.php"; // Permet d'inclure le fichier php avec nos fonction
     <title>Document</title>
 </head>
 <body>
-    <?= displayBadge(" 🔥 PROMO") ?>
-    <?= displayBadge("NOUVEAU","green") ?>
-    <?= displayBadge("RUPTURE","red") ?>
-    <?= displayPrice(100,10) ?>
+    <?= displayBadge(' 🔥 PROMO') ?>
+    <?= displayBadge('NOUVEAU', 'green') ?>
+    <?= displayBadge('RUPTURE', 'red') ?>
+    <?= displayPrice(100, 10) ?>
     <?= displayPrice(90) ?>
     <?= displayStock(0) ?>
     <?= displayStock(4) ?>

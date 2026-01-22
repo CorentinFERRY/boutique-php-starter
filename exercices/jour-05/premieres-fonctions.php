@@ -1,12 +1,14 @@
 <?php
 
-function greet(){
-    echo "Bienvenue sur la boutique !";
+function greet()
+{
+    echo 'Bienvenue sur la boutique !';
 }
 
-function greetClient($name){
+function greetClient($name)
+{
     echo "Bonjour $name !";
 }
 
 greet();
-greetClient("Corentin");
+greetClient('Corentin');

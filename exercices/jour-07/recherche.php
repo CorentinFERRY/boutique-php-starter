@@ -4,28 +4,31 @@ $search = htmlspecialchars($_GET['recherche'] ?? null);
 
 try {
     $pdo = new PDO(
-        "mysql:host=localhost;dbname=boutique;charset=utf8mb4",
-        "dev",
-        "dev",
+        'mysql:host=localhost;dbname=boutique;charset=utf8mb4',
+        'dev',
+        'dev',
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION] // Gestion d'erreurs
     );
-// Permet de récupérer les erreurs et de les afficher si il y en a
-} catch(PDOException $e){
-    echo "❌ Erreur : " . $e->getMessage();
-};
+    // Permet de récupérer les erreurs et de les afficher si il y en a
+} catch (PDOException $e) {
+    echo '❌ Erreur : '.$e->getMessage();
+}
 
-$cmd = $pdo->prepare("SELECT * FROM products WHERE name LIKE ?");
-$cmd->execute(['%' . $search . '%']);
+$cmd = $pdo->prepare('SELECT * FROM products WHERE name LIKE ?');
+$cmd->execute(['%'.$search.'%']);
 
 $products = $cmd->fetchAll(PDO::FETCH_ASSOC);
 
-function displayProducts ($products){
-    $display = ""; 
-    foreach($products as $product){
-        $display = $display."<h2>".$product['name']."</h2>"."<p>".$product['price']."</p>";
+function displayProducts($products)
+{
+    $display = '';
+    foreach ($products as $product) {
+        $display = $display.'<h2>'.$product['name'].'</h2>'.'<p>'.$product['price'].'</p>';
     }
-    if ($display === "")
-        $display = "Aucun résultat";
+    if ($display === '') {
+        $display = 'Aucun résultat';
+    }
+
     return $display;
 }
 ?>

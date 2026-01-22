@@ -7,7 +7,6 @@ use Config\MyDatabase;
 
 class CartController
 {
-
     private ProductRepository $repository;
 
     public function __construct()
@@ -23,19 +22,19 @@ class CartController
 
         $products = [];
         $productsId = array_keys($cart);
-        if (!empty($cart)) {
+        if (! empty($cart)) {
             foreach ($productsId as $productId) {
                 $products[] = $this->repository->find($productId);
             }
         }
         setSession('itemCart', count($products));
-        $title = "Votre Panier";
+        $title = 'Votre Panier';
         view(
             '/cart/index',
             [
                 'title' => $title,
                 'products' => $products,
-                'cart' => $cart
+                'cart' => $cart,
             ]
         );
     }
@@ -47,7 +46,7 @@ class CartController
         $quantity = (int) ($_POST['quantity'] ?? 1);
 
         if ($productId && $quantity > 0) {
-            if (!isset($_SESSION['cart'][$productId])) {
+            if (! isset($_SESSION['cart'][$productId])) {
                 $_SESSION['cart'][$productId] = 0;
             }
             $_SESSION['cart'][$productId] += $quantity;
@@ -70,13 +69,13 @@ class CartController
         redirect('/panier');
     }
 
-    //POST /panier/modifier
+    // POST /panier/modifier
     public function update(): void
     {
         $productId = $_POST['product_id'] ?? null;
         $quantity = (int) ($_POST['quantity'] ?? 0);
         if ($quantity === 0) {
-            //Si ma quantitée atteint 0 suppression du panier
+            // Si ma quantitée atteint 0 suppression du panier
             $this->remove();
         }
         if ($productId && $quantity > 0) {
@@ -93,7 +92,8 @@ class CartController
         redirect('/panier');
     }
 
-    public function maj(): void{
+    public function maj(): void
+    {
 
         // Apres modification d'un quantité
         flash('success', 'Quantitée modifiée avec succès !');

@@ -1,9 +1,8 @@
 <?php
 
-require_once "Address.php";
+require_once 'Address.php';
 class User
 {
-
     /** @var Address[] */
     private array $address = [];
 
@@ -23,23 +22,20 @@ class User
         return $this->mail;
     }
 
-    public function addAddress(Address $address, int $id) : void
+    public function addAddress(Address $address, int $id): void
     {
-        if (!isset($this->address[$id])) {
-            $this->address[$id] = $address; 
+        if (! isset($this->address[$id])) {
+            $this->address[$id] = $address;
         }
     }
 
-    public function getAddresses() : array
+    public function getAddresses(): array
     {
         return $this->address;
     }
 
-    public function getDefaultAddress () : string
+    public function getDefaultAddress(): string
     {
         return $this->address[0]->getAddress();
     }
 }
-
-
-

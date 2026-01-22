@@ -2,7 +2,6 @@
 
 class BankAccount
 {
-
     private float $balance;
 
     public function __construct(float $balance)
@@ -13,7 +12,7 @@ class BankAccount
     public function setBalance(float $balance): void
     {
         if ($balance < 0) {
-            throw new InvalidArgumentException("Prix négatif interdit");
+            throw new InvalidArgumentException('Prix négatif interdit');
         }
         $this->balance = $balance;
     }
@@ -35,15 +34,14 @@ class BankAccount
         if ($amount > 0 && $this->balance > $amount) {
             $this->setBalance($this->balance - $amount);
         } else {
-            throw new InvalidArgumentException("Montant trop élevé !");
+            throw new InvalidArgumentException('Montant trop élevé !');
         }
     }
 }
 
-
 $coco = new BankAccount(20.52);
-echo $coco->getBalance() . "<br>";
+echo $coco->getBalance().'<br>';
 $coco->deposit(259.56);
-echo $coco->getBalance() . "<br>";
+echo $coco->getBalance().'<br>';
 $coco->withdraw(150);
-echo $coco->getBalance() . "<br>";
+echo $coco->getBalance().'<br>';

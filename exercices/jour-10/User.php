@@ -1,9 +1,8 @@
 <?php
 
-require_once "Address.php";
+require_once 'Address.php';
 class User
 {
-
     /** @var Address[] */
     private array $address = [];
 
@@ -15,10 +14,11 @@ class User
         private string $role = 'user',
         private DateTime $dateInscription = new DateTime('now'),
     ) {
-        //$this->setRole($role);
+        // $this->setRole($role);
     }
 
-    public function getId() : int {
+    public function getId(): int
+    {
         return $this->id;
     }
 
@@ -32,44 +32,44 @@ class User
         return $this->mail;
     }
 
-    public function getPassword() : string {
+    public function getPassword(): string
+    {
         return $this->password;
     }
 
-    public function getRole() : string {
+    public function getRole(): string
+    {
         return $this->role;
     }
 
-    public function getDateInscription() : DateTime{
+    public function getDateInscription(): DateTime
+    {
         return $this->dateInscription;
     }
 
-    public function getAddresses() : array
+    public function getAddresses(): array
     {
         return $this->address;
     }
 
-    public function getDefaultAddress () : string
+    public function getDefaultAddress(): string
     {
         return $this->address[0]->getAddress();
     }
 
-    public function setRole(string $role) : void {
-        if ($role === 'admin'){
+    public function setRole(string $role): void
+    {
+        if ($role === 'admin') {
             $this->role = 'admin';
-        }
-        else{
+        } else {
             $this->role = 'user';
         }
     }
 
-    public function addAddress(Address $address, int $id) : void
+    public function addAddress(Address $address, int $id): void
     {
-        if (!isset($this->address[$id])) {
-            $this->address[$id] = $address; 
+        if (! isset($this->address[$id])) {
+            $this->address[$id] = $address;
         }
     }
 }
-
-
-

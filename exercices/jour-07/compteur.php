@@ -7,7 +7,7 @@ if (isset($_GET['reset'])) {
 }
 
 // Initialisation ou incrémentation
-if (!isset($_SESSION['visits'])) {
+if (! isset($_SESSION['visits'])) {
     $_SESSION['visits'] = 1;
 } else {
     $_SESSION['visits']++;

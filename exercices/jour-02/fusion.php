@@ -1,13 +1,13 @@
 <?php
 
-$clothes = ["T-shirt", "Jean", "Pull"];
-$accessories = ["Ceinture", "Montre", "Lunettes"];
+$clothes = ['T-shirt', 'Jean', 'Pull'];
+$accessories = ['Ceinture', 'Montre', 'Lunettes'];
 
-$catalog = array_merge($clothes,$accessories);
+$catalog = array_merge($clothes, $accessories);
 print_r($catalog);
-echo "<br>";
+echo '<br>';
 echo count($catalog);
 
-array_unshift($catalog,"Casquette");
-echo "<br>";
+array_unshift($catalog, 'Casquette');
+echo '<br>';
 print_r($catalog);

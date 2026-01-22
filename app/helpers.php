@@ -1,4 +1,5 @@
 <?php
+
 // app/helpers.php
 
 function e(string $string): string
@@ -9,12 +10,12 @@ function e(string $string): string
 function view(string $template, array $data = []): void
 {
     extract($data);
-    
+
     ob_start();
-    require __DIR__ . "/../views/$template.php";
+    require __DIR__."/../views/$template.php";
     $content = ob_get_clean();
-    
-    require __DIR__ . '/../views/layout.php';
+
+    require __DIR__.'/../views/layout.php';
 }
 
 function redirect(string $url): void
@@ -46,7 +47,7 @@ function flash(string $type, string $message): void
 {
     $_SESSION['flash'] = [
         'type' => $type,      // 'success', 'error', 'warning'
-        'message' => $message
+        'message' => $message,
     ];
 }
 
@@ -55,5 +56,23 @@ function getFlash(): ?array
 {
     $flash = $_SESSION['flash'] ?? null;
     unset($_SESSION['flash']); // Supprime après lecture
+
     return $flash;
+}
+
+function old(string $key, string $default = ''): string
+{
+    $value = $_SESSION['old'][$key] ?? $default;
+
+    return $value;
+}
+
+function setOld(array $data): void
+{
+    $_SESSION['old'] = $data;
+}
+
+function clearOld(): void
+{
+    unset($_SESSION['old']);
 }

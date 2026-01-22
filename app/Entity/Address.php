@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Entity;
+
 class Address
 {
-
     public function __construct(
         private int $numero,
         private string $street,
@@ -12,7 +12,8 @@ class Address
         private string $country
     ) {}
 
-    public function getAddress () : string {
+    public function getAddress(): string
+    {
         return "$this->numero $this->street $this->city $this->postalCode $this->country ";
     }
 }

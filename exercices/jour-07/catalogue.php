@@ -2,25 +2,30 @@
 
 declare(strict_types=1);
 // starter-project/public/catalogue.php
-require_once __DIR__ . '/../app/data.php';
+require_once __DIR__.'/../app/data.php';
 // $products est maintenant disponible
-require_once __DIR__ . '/../app/helpers1.php';
 // Les fonction de helpers sont maintenant disponible
 
-//Compteurs pour les stats
+// Compteurs pour les stats
 $inStock = 0;
 $onSale = 0;
 $outOfStock = 0;
 
 foreach ($products as $product) {
-    if ($product["stock"] === 0) $outOfStock++;
-    if ($product["discount"] > 0)  $onSale++;
-    if ($product["stock"] > 0) $inStock++;
+    if ($product['stock'] === 0) {
+        $outOfStock++;
+    }
+    if ($product['discount'] > 0) {
+        $onSale++;
+    }
+    if ($product['stock'] > 0) {
+        $inStock++;
+    }
 }
 
-$categories = $_GET["categories"] ?? [];
-$page = $_GET["page"] ?? "1";
-$sort = $_GET["sort"] ?? "name_asc";
+$categories = $_GET['categories'] ?? [];
+$page = $_GET['page'] ?? '1';
+$sort = $_GET['sort'] ?? 'name_asc';
 
 ?>
 
@@ -82,11 +87,11 @@ $sort = $_GET["sort"] ?? "name_asc";
                             <div class="catalog-sidebar__price-inputs">
                                 <div class="form-group">
                                     <label class="form-label">Min</label>
-                                    <input type="number" name="price_min" class="form-input" placeholder="0 €" min="0" value="<?= htmlspecialchars($_GET['price_min'] ?? "") ?>">
+                                    <input type="number" name="price_min" class="form-input" placeholder="0 €" min="0" value="<?= htmlspecialchars($_GET['price_min'] ?? '') ?>">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Max</label>
-                                    <input type="number" name="price_max" class="form-input" placeholder="100 €" min="0" value="<?= htmlspecialchars($_GET['price_max'] ?? "") ?>">
+                                    <input type="number" name="price_max" class="form-input" placeholder="100 €" min="0" value="<?= htmlspecialchars($_GET['price_max'] ?? '') ?>">
                                 </div>
                             </div>
                         </div>
@@ -94,7 +99,7 @@ $sort = $_GET["sort"] ?? "name_asc";
                         <div class="catalog-sidebar__section">
                             <h3 class="catalog-sidebar__title">Disponibilité</h3>
                             <label class="form-checkbox">
-                                <input type="checkbox" name="in_stock" value="1" <?= (htmlspecialchars($_GET['in_stock'] ?? "") === "1") ? "checked" : NULL ?>>
+                                <input type="checkbox" name="in_stock" value="1" <?= (htmlspecialchars($_GET['in_stock'] ?? '') === '1') ? 'checked' : null ?>>
                                 <span>En stock uniquement</span>
                             </label>
                         </div>
@@ -110,10 +115,10 @@ $sort = $_GET["sort"] ?? "name_asc";
                         <div class="catalog-header__sort">
                             <label>Trier :</label>
                             <select name="sort" class="form-select" style="width:auto" form="catalogue">
-                                <option value="name_asc" <?= ($sort == "name_asc" ? "selected" : NULL); ?>>Nom A-Z</option>
-                                <option value="name_desc" <?= ($sort == "name_desc" ? "selected" : NULL); ?>>Nom Z-A</option>
-                                <option value="price_asc" <?= ($sort == "prix_asc" ? "selected" : NULL); ?>>Prix ↑</option>
-                                <option value="price_desc" <?= ($sort == "prix_desc" ? "selected" : NULL); ?>>Prix ↓</option>
+                                <option value="name_asc" <?= ($sort == 'name_asc' ? 'selected' : null); ?>>Nom A-Z</option>
+                                <option value="name_desc" <?= ($sort == 'name_desc' ? 'selected' : null); ?>>Nom Z-A</option>
+                                <option value="price_asc" <?= ($sort == 'prix_asc' ? 'selected' : null); ?>>Prix ↑</option>
+                                <option value="price_desc" <?= ($sort == 'prix_desc' ? 'selected' : null); ?>>Prix ↓</option>
                             </select>
                         </div>
                     </div>
@@ -124,27 +129,27 @@ $sort = $_GET["sort"] ?? "name_asc";
                      JOUR 4 : Badges conditionnels
                      ============================================ -->
                     <div class="products-grid">
-                        <?php foreach (applyPagination(applyFilters($products),$page) as $product): ?>
+                        <?php foreach (applyPagination(applyFilters($products), $page) as $product) { ?>
                             <article class="product-card">
                                 <div class="product-card__image-wrapper">
-                                    <img src="<?= $product["image"] ?>" alt="<?= $product["name"] ?>" class="product-card__image">
+                                    <img src="<?= $product['image'] ?>" alt="<?= $product['name'] ?>" class="product-card__image">
                                     <div class="product-card__badges">
                                         <?= displayBadge($product) ?>
                                     </div>
                                 </div>
                                 <div class="product-card__content">
-                                    <span class="product-card__category"><?= $product["category"] ?></span>
-                                    <a href="produit.html?id=1" class="product-card__title"><?= $product["name"] ?></a>
+                                    <span class="product-card__category"><?= $product['category'] ?></span>
+                                    <a href="produit.html?id=1" class="product-card__title"><?= $product['name'] ?></a>
                                     <div class="product-card__price">
-                                        <?= displayPrice($product["price"], $product["discount"]) ?>
+                                        <?= displayPrice($product['price'], $product['discount']) ?>
                                     </div>
-                                    <?= displayStockStatus($product["stock"]) ?>
+                                    <?= displayStockStatus($product['stock']) ?>
                                     <div class="product-card__actions">
-                                        <?= displayButton($product["stock"]) ?>
+                                        <?= displayButton($product['stock']) ?>
                                     </div>
                                 </div>
                             </article>
-                        <?php endforeach; ?>
+                        <?php } ?>
                     </div>
                     <!-- ============================================
                      PAGINATION

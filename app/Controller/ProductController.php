@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use Config\MyDatabase;
 use App\Repository\ProductRepository;
+use Config\MyDatabase;
 
 class ProductController
 {
@@ -19,31 +19,32 @@ class ProductController
     {
         $products = $this->repository->findAll();
         view('products/index', [
-            'title' => "Catalogue",
-            'products' => $products
+            'title' => 'Catalogue',
+            'products' => $products,
         ]);
     }
 
     public function show(string $id): void
     {
-        if (!$id) {
+        if (! $id) {
             redirect('/produits');
+
             return;
         }
-        $product = $this->repository->find((int)$id);
-        if (!$product) {
+        $product = $this->repository->find((int) $id);
+        if (! $product) {
             http_response_code(404);
-            view("error/404",[
-                'title' => "Not found"
+            view('error/404', [
+                'title' => 'Not found',
             ]);
+
             return;
         }
-        view("products/show", [
+        view('products/show', [
             'title' => e($product->getName()),
-            'product' => $product
+            'product' => $product,
         ]);
     }
-
 
     /*  protected function redirect(string $url): void
     {

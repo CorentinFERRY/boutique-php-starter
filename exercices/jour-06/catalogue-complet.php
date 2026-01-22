@@ -1,21 +1,21 @@
 <?php
-require_once __DIR__ . '../../../app/data.php';
+require_once __DIR__.'../../../app/data.php';
 
 // Récupération des filtres
-$search = $_GET["q"] ?? "";
-$categories = $_GET["category"] ?? [];
-$priceMin = $_GET["price_min"] ?? 0;
-$priceMax = $_GET["price_max"] ?? PHP_INT_MAX;
-$sort = $_GET["sort"] ?? "name_asc";
-$page = $_GET["page"] ?? 1;
+$search = $_GET['q'] ?? '';
+$categories = $_GET['category'] ?? [];
+$priceMin = $_GET['price_min'] ?? 0;
+$priceMax = $_GET['price_max'] ?? PHP_INT_MAX;
+$sort = $_GET['sort'] ?? 'name_asc';
+$page = $_GET['page'] ?? 1;
 
 // Filtrage
-$results = array_filter($products, function ($p) use ($search) {
+$results = array_filter($products, function ($p) {
     // Conditions de filtrage
 });
 
 // Tri
-usort($results, function ($a, $b) use ($sort) {
+usort($results, function ($a, $b) {
     // Logique de tri
 });
 
@@ -52,7 +52,7 @@ $results = array_slice($results, ($page - 1) * $perPage, $perPage);
         </div>
         <div>
             <label>
-                <input type="checkbox" name="in_stock" value="1" <?= ($in_stock === "1") ? "checked" : "" ?>>
+                <input type="checkbox" name="in_stock" value="1" <?= ($in_stock === '1') ? 'checked' : '' ?>>
                 <span>En stock uniquement</span>
             </label>
         </div>

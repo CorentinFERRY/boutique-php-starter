@@ -1,6 +1,6 @@
 <h1>Catalogue</h1>
 
-<?php foreach ($products as $product): ?>
+<?php foreach ($products as $product) { ?>
     <article>
         <h2><?= e($product->getName()) ?></h2>
         <p><?= $product->getPrice() ?> €</p>
@@ -11,5 +11,5 @@
             <button type="submit" class="btn btn--primary btn--block\">Ajouter</button>
         </form>
     </article>
-<?php endforeach; ?>
+<?php } ?>
 <a href="/panier">Voir le panier</a>

@@ -1,22 +1,22 @@
 <?php
 session_start();
 
-$_SESSION['user'] = htmlspecialchars($_POST["user"] ?? '');
+$_SESSION['user'] = htmlspecialchars($_POST['user'] ?? '');
 
-if (!isset($_SESSION["user"])) {
-    header("Location: login.php");
+if (! isset($_SESSION['user'])) {
+    header('Location: login.php');
     exit;
 }
 
-$errors = "";
+$errors = '';
 
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = htmlspecialchars($_POST['password'] ?? '');
-    if ($_SESSION["user"] === "admin" && $password === "1234") {
-        header("Location: dashbord.php");
+    if ($_SESSION['user'] === 'admin' && $password === '1234') {
+        header('Location: dashbord.php');
         exit;
     } else {
-        $errors = "Identifiants incorrects";
+        $errors = 'Identifiants incorrects';
     }
 }
 
@@ -33,9 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 <body>
 
-    <?php if ($errors): ?>
+    <?php if ($errors) { ?>
         <p><?= $errors ?></p>
-    <?php endif; ?>
+    <?php } ?>
     <form method="POST">
         <div>
             <label for="user">Username : </label>

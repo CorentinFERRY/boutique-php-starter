@@ -1,14 +1,16 @@
 <?php
 
-$name = "Casquette";
+$name = 'Casquette';
 $price = 29.99;
 $stock = 0;
 
-function isAvailable ($stock){
-    if($stock > 0)
-        echo "En stock";
-    else    
-        echo "Rupture";
+function isAvailable($stock)
+{
+    if ($stock > 0) {
+        echo 'En stock';
+    } else {
+        echo 'Rupture';
+    }
 }
 
 ?>

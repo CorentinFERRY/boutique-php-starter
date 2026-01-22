@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repository;
 
 use App\Entity\User;
@@ -8,53 +9,54 @@ use PDO;
 
 class UserRepository
 {
-
-    function __construct(
+    public function __construct(
         private PDO $pdo
     ) {}
 
     public function find(int $id): ?User
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');
         $stmt->execute([$id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
         return $data ? $this->hydrate($data) : null;
     }
 
     public function findAll(): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM users");
+        $stmt = $this->pdo->prepare('SELECT * FROM users');
         $stmt->execute();
+
         return array_map([$this, 'hydrate'], $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
     public function save(User $user): void
     {
         if ($this->find($user->getId()) === null) {
-            $stmt = $this->pdo->prepare("INSERT INTO users (id,name,email,password,role,created_at) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt = $this->pdo->prepare('INSERT INTO users (id,name,email,password,role,created_at) VALUES (?, ?, ?, ?, ?, ?)');
             $stmt->execute([
                 $user->getId(),
                 $user->getName(),
                 $user->getMail(),
                 password_hash($user->getPassword(), PASSWORD_DEFAULT),
                 $user->getRole(),
-                $user->getDateInscription()->format("Y-m-d")
+                $user->getDateInscription()->format('Y-m-d'),
             ]);
         } else {
-            throw new InvalidArgumentException("Id déjà utilisé !");
+            throw new InvalidArgumentException('Id déjà utilisé !');
         }
     }
 
     public function update(User $user): void
     {
         if ($this->find($user->getId() !== null)) {
-            $stmt = $this->pdo->prepare("UPDATE users SET name = ?, email = ?, password = ?, role = ? WHERE id = ?");
+            $stmt = $this->pdo->prepare('UPDATE users SET name = ?, email = ?, password = ?, role = ? WHERE id = ?');
             $stmt->execute([
                 $user->getName(),
                 $user->getMail(),
                 password_hash($user->getPassword(), PASSWORD_DEFAULT),
                 $user->getRole(),
-                $user->getId()
+                $user->getId(),
             ]);
         } else {
             throw new InvalidArgumentException("User dosen't exist !");
@@ -64,7 +66,7 @@ class UserRepository
     public function delete(User $user): void
     {
         if ($this->find($user->getId() !== null)) {
-            $stmt = $this->pdo->prepare("DELETE FROM users WHERE id = ?");
+            $stmt = $this->pdo->prepare('DELETE FROM users WHERE id = ?');
             $stmt->execute([$user->getId()]);
         } else {
             throw new InvalidArgumentException("User dosen't exist !");
@@ -73,9 +75,10 @@ class UserRepository
 
     public function findByEmail(string $email): ?User
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = ?');
         $stmt->execute([$email]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
         return $data ? $this->hydrate($data) : null;
     }
 
@@ -90,6 +93,7 @@ class UserRepository
             $data['role'],
             $date
         );
+
         return $user;
     }
 }

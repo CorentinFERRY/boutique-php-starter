@@ -4,32 +4,35 @@ declare(strict_types=1);
 const TVA = 20;
 const DEVISE = '€ ';
 define('NOM_SITE', 'Boutique');
-$name = "Casquette";
-$description = "Habbit de tête avec visière pour se protéger du soleil";
+$name = 'Casquette';
+$description = 'Habbit de tête avec visière pour se protéger du soleil';
 $priceHT = 29.99;
 $stock = 3;
 $priceTTC = calculedPriceTTC($priceHT);
 $discount = 10;
 $priceDiscount = calculedPriceTTC(calculedPriceDiscount($priceHT, $discount));
 
-function calculedPriceDiscount(float $priceHT, float $discount) : float
+function calculedPriceDiscount(float $priceHT, float $discount): float
 {
     $result = $priceHT - (($priceHT * $discount) / 100);
+
     return $result;
 }
 
-function calculedPriceTTC(float $priceHT) : float
+function calculedPriceTTC(float $priceHT): float
 {
     $result = $priceHT + (($priceHT * TVA) / 100);
+
     return $result;
 }
 
 function isAvailable($stock)
 {
-    if ($stock > 0)
-        echo "En stock";
-    else
-        echo "Rupture";
+    if ($stock > 0) {
+        echo 'En stock';
+    } else {
+        echo 'Rupture';
+    }
 }
 
 ?>
@@ -47,8 +50,8 @@ function isAvailable($stock)
     <h1><?= $name ?></h1>
     <p>
         <?= $description ?><br>
-        <?= number_format($priceDiscount, 2, ',', ' ') . DEVISE; ?><strike><?= sprintf("%01.2f %s", $priceTTC, DEVISE) ?></strike><br>
-        <span><?= isAvailable($stock) . ' (' . $stock . ').' ?></span>
+        <?= number_format($priceDiscount, 2, ',', ' ').DEVISE; ?><strike><?= sprintf('%01.2f %s', $priceTTC, DEVISE) ?></strike><br>
+        <span><?= isAvailable($stock).' ('.$stock.').' ?></span>
     </p>
 </body>
 
