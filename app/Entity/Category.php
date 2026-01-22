@@ -23,8 +23,7 @@ class Category
     public function getSlug(): string
     {
         $slug = strtolower($this->name);
-        $slug = str_replace(' ', '-', $slug);
 
-        return $slug;
+        return str_replace(' ', '-', $slug);
     }
 }

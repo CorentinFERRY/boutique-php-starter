@@ -62,9 +62,7 @@ function getFlash(): ?array
 
 function old(string $key, string $default = ''): string
 {
-    $value = $_SESSION['old'][$key] ?? $default;
-
-    return $value;
+    return $_SESSION['old'][$key] ?? $default;
 }
 
 function setOld(array $data): void

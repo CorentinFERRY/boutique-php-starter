@@ -33,7 +33,7 @@ class UserRepository
 
     public function save(User $user): void
     {
-        if ($this->find($user->getId()) === null) {
+        if (!$this->find($user->getId()) instanceof \App\Entity\User) {
             $stmt = $this->pdo->prepare('INSERT INTO users (id,name,email,password,role,created_at) VALUES (?, ?, ?, ?, ?, ?)');
             $stmt->execute([
                 $user->getId(),
@@ -50,7 +50,7 @@ class UserRepository
 
     public function update(User $user): void
     {
-        if ($this->find($user->getId() !== null)) {
+        if ($this->find($user->getId() !== null) instanceof \App\Entity\User) {
             $stmt = $this->pdo->prepare('UPDATE users SET name = ?, email = ?, password = ?, role = ? WHERE id = ?');
             $stmt->execute([
                 $user->getName(),
@@ -66,7 +66,7 @@ class UserRepository
 
     public function delete(User $user): void
     {
-        if ($this->find($user->getId() !== null)) {
+        if ($this->find($user->getId() !== null) instanceof \App\Entity\User) {
             $stmt = $this->pdo->prepare('DELETE FROM users WHERE id = ?');
             $stmt->execute([$user->getId()]);
         } else {
@@ -86,7 +86,8 @@ class UserRepository
     private function hydrate(array $data): User
     {
         $date = new DateTime($data['created_at']);
-        $user = new User(
+
+        return new User(
             $data['id'],
             $data['name'],
             $data['email'],
@@ -94,7 +95,5 @@ class UserRepository
             $data['role'],
             $date
         );
-
-        return $user;
     }
 }

@@ -26,13 +26,13 @@ class ProductController
 
     public function show(string $id): void
     {
-        if (! $id) {
+        if ($id === '' || $id === '0') {
             redirect('/produits');
 
             return;
         }
         $product = $this->repository->find((int) $id);
-        if (! $product) {
+        if (!$product instanceof \App\Entity\Product) {
             http_response_code(404);
             view('error/404', [
                 'title' => 'Not found',

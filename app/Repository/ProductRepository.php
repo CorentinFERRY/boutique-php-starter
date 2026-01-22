@@ -36,7 +36,7 @@ class ProductRepository
     // CREATE
     public function save(Product $product): void
     {
-        if ($this->find($product->getId()) === null) {
+        if (!$this->find($product->getId()) instanceof \App\Entity\Product) {
             $stmt = $this->pdo->prepare('INSERT INTO products (id,name,description,price,stock,category,category_id) VALUES (?, ?, ?, ?, ?, ?, ?)');
             $stmt->execute([
                 $product->getId(),
@@ -55,7 +55,7 @@ class ProductRepository
     // UPDATE
     public function update(Product $product): void
     {
-        if ($this->find($product->getId()) !== null) {
+        if ($this->find($product->getId()) instanceof \App\Entity\Product) {
             $stmt = $this->pdo->prepare('UPDATE products SET name = ?, description = ?, price = ?, stock = ?, category = ?  WHERE id = ?');
             $stmt->execute([
                 $product->getName(),
@@ -73,7 +73,7 @@ class ProductRepository
     // DELETE
     public function delete(Product $product): void
     {
-        if ($this->find($product->getId()) !== null) {
+        if ($this->find($product->getId()) instanceof \App\Entity\Product) {
             $stmt = $this->pdo->prepare('DELETE FROM products WHERE id = ?');
             $stmt->execute([$product->getId()]);
         } else {

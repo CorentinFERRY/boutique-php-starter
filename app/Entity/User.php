@@ -62,11 +62,7 @@ class User
 
     public function setRole(string $role): void
     {
-        if ($role === 'admin') {
-            $this->role = 'admin';
-        } else {
-            $this->role = 'user';
-        }
+        $this->role = $role === 'admin' ? 'admin' : 'user';
     }
 
     public function addAddress(Address $address, int $id): void

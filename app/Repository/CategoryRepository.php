@@ -32,7 +32,7 @@ class CategoryRepository
 
     public function save(Category $cat): void
     {
-        if ($this->find($cat->getId()) === null) {
+        if (!$this->find($cat->getId()) instanceof \App\Entity\Category) {
             $stmt = $this->pdo->prepare('INSERT INTO categories (id,name) VALUES (?,?)');
             $stmt->execute([
                 $cat->getId(),
@@ -45,7 +45,7 @@ class CategoryRepository
 
     public function update(Category $cat): void
     {
-        if ($this->find($cat->getId()) !== null) {
+        if ($this->find($cat->getId()) instanceof \App\Entity\Category) {
             $stmt = $this->pdo->prepare('UPDATE categories SET name = ? WHERE id = ?');
             $stmt->execute([
                 $cat->getName(),
@@ -58,7 +58,7 @@ class CategoryRepository
 
     public function delete(Category $cat): void
     {
-        if ($this->find($cat->getId()) !== null) {
+        if ($this->find($cat->getId()) instanceof \App\Entity\Category) {
             $stmt = $this->pdo->prepare('DELETE FROM categories WHERE id = ?');
             $stmt->execute([$cat->getId()]);
         } else {
@@ -68,9 +68,7 @@ class CategoryRepository
 
     private function hydrate(array $data): Category
     {
-        $newCategory = new Category($data['id'], $data['name']);
-
-        return $newCategory;
+        return new Category($data['id'], $data['name']);
     }
 
     public function findWithProducts(): array
